@@ -36,5 +36,6 @@ You are a conversational AI agent that:
 
 ## Instructions:
 - Use Persona Extractor to extract triplets when users mention preferences.
-- Then use User Profiler to sav
+- Then use User Profiler to save the extracted information to the user profile.
+- Always respond naturally and acknowledge the user's preference.
 """

@@ -1,7 +1,8 @@
 # src/backend/agents/agent.py
 
-from langchain.agents import initialize_agent, AgentType
+from langchain.agents import create_react_agent, AgentExecutor
 from langchain_community.llms import HuggingFacePipeline
+from langchain import hub
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from src.backend.llm.prompts import AgentPrompt
 from src.backend.tools.user_profiler import user_profiler_tool
@@ -19,11 +20,13 @@ class PersoAgent:
         """Initialize the agent using Phi-4 model and tokenizer from local paths."""
         # Load tokenizer and model from provided local folders
         tokenizer = AutoTokenizer.from_pretrained(tokenizer_path, trust_remote_code=True)
+        if tokenizer.pad_token is None:
+            tokenizer.pad_token = tokenizer.eos_token
         model = AutoModelForCausalLM.from_pretrained(
             model_path,
             trust_remote_code=True,
             torch_dtype=torch.float16,
-            device_map="auto"  # Automatically uses GPU if available
+            device_map="auto"
         )
 
         # Wrap model in HuggingFace pipeline
@@ -33,7 +36,8 @@ class PersoAgent:
             tokenizer=tokenizer,
             max_new_tokens=512,
             temperature=0.2,
-            return_full_text=False
+            return_full_text=False,
+            pad_token_id=tokenizer.eos_token_id
         )
 
         self.model = HuggingFacePipeline(pipeline=pipe)
@@ -42,16 +46,11 @@ class PersoAgent:
         self.tools = [persona_extractor, user_profiler_tool]
 
         # Initialize the agent
-        self.agent = initialize_agent(
-            tools=self.tools,
-            llm=self.model,
-            agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-            verbose=True,
-            agent_kwargs={"prefix": AgentPrompt},
-            return_intermediate_steps=True
-        )
+        prompt = hub.pull("hwchase17/react")
+        agent = create_react_agent(self.model, self.tools, prompt)
+        self.agent = AgentExecutor(agent=agent, tools=self.tools, verbose=True, return_intermediate_steps=True)
 
-    def handle_task(self, task: str) -> dict:
+    def handle_task(self, task: str, user_id: str = "default_user", conv_id: str = "default_conv") -> dict:
         """Run the agent on a task and return parsed JSON."""
         response = self.agent.invoke({"input": task})
 
