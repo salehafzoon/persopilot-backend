@@ -3,7 +3,7 @@ from langchain.tools import StructuredTool
 from pydantic import BaseModel
 from typing import Optional
 
-from utils.db_util import Neo4jDB
+from src.backend.utils.db_util import Neo4jDB
 
 # ------------------------
 # Pydantic input schema

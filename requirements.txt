@@ -8,9 +8,11 @@ scikit-learn
 transformers
 python-docx
 matplotlib
+accelerate
 langchain
 pydantic
 datasets
+protobuf
 fastapi
 uvicorn
 pytest

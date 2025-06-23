@@ -3,3 +3,6 @@ PExtractor/
 .venv
 .conda
 Neo4j-*
+
+LLMs/*
+Tokenizers/*
