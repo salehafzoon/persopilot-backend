@@ -1,13 +1,14 @@
 # src/backend/tools/persona_extractor.py
 
+from transformers import BertTokenizerFast, BertModel
 from langchain.tools import StructuredTool
 from pydantic import BaseModel, Field
 from typing import Tuple
-import torch
-from transformers import BertTokenizerFast, BertModel
 from torch import nn
-import json
 import warnings
+import torch
+import json
+
 warnings.filterwarnings("ignore")
 
 # ------------------------

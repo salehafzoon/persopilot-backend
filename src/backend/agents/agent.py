@@ -1,23 +1,19 @@
 # src/backend/agents/agent.py
 
-from langchain.agents import create_react_agent, AgentExecutor
-from langchain_community.llms import HuggingFacePipeline
-from langchain import hub
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from src.backend.llm.prompts import AgentPrompt
-from src.backend.tools.user_profiler import user_profiler_tool
 from src.backend.tools.persona_extractor import persona_extractor
-import torch
+from langchain.agents import initialize_agent, AgentType
+from langchain_community.llms import HuggingFacePipeline
+from src.backend.llm.prompts import AgentPrompt
 import logging
+import torch
 import os
-import json
-import ast
 
 logger = logging.getLogger(__name__)
 
 class PersoAgent:
     def __init__(self, model_path: str, tokenizer_path: str):
-        """Initialize the agent using Phi-4 model and tokenizer from local paths."""
+        
         # Load tokenizer and model from provided local folders
         tokenizer = AutoTokenizer.from_pretrained(tokenizer_path, trust_remote_code=True)
         if tokenizer.pad_token is None:
@@ -43,25 +39,22 @@ class PersoAgent:
         self.model = HuggingFacePipeline(pipeline=pipe)
 
         # Register tools
-        self.tools = [persona_extractor, user_profiler_tool]
+        self.tools = [persona_extractor]
+        
+        # Initialize agent with custom prompt
+        self.agent = initialize_agent(
+            tools=self.tools,
+            llm=self.model,
+            agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+            verbose=True,
+            handle_parsing_errors=True,
+            agent_kwargs={
+                "prefix": AgentPrompt,
+                "format_instructions": "Use tools when needed and respond naturally."
+            }
+        )
 
-        # Initialize the agent
-        prompt = hub.pull("hwchase17/react")
-        agent = create_react_agent(self.model, self.tools, prompt)
-        self.agent = AgentExecutor(agent=agent, tools=self.tools, verbose=True, return_intermediate_steps=True)
-
-    def handle_task(self, task: str, user_id: str = "default_user", conv_id: str = "default_conv") -> dict:
-        """Run the agent on a task and return parsed JSON."""
+    def handle_task(self, task: str, user_id: str = "default_user", conv_id: str = "default_conv") -> str:
+        """Run the agent on a task and return the response."""
         response = self.agent.invoke({"input": task})
-
-        try:
-            output = response.get("output")
-            if isinstance(output, dict):
-                return output
-            try:
-                return ast.literal_eval(output)
-            except (SyntaxError, ValueError):
-                return json.loads(output)
-        except Exception as e:
-            logger.error(f"Error: {e}")
-            raise ValueError(f"Agent returned invalid output: {output}")
+        return response.get("output", "No response generated.")
