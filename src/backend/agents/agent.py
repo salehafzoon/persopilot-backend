@@ -4,6 +4,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from src.backend.tools.persona_extractor import persona_extractor
 from langchain.agents import initialize_agent, AgentType
 from langchain_community.llms import HuggingFacePipeline
+from langchain.memory import ConversationBufferMemory
 from src.backend.llm.prompts import AgentPrompt
 import logging
 import torch
@@ -41,16 +42,24 @@ class PersoAgent:
         # Register tools
         self.tools = [persona_extractor]
         
-        # Initialize agent with custom prompt
+        # Initialize memory
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True
+        )
+        
+        # Initialize agent with custom prompt and memory
         self.agent = initialize_agent(
             tools=self.tools,
             llm=self.model,
-            agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+            agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,
             verbose=True,
+            memory=self.memory,
             handle_parsing_errors=True,
+            # max_iterations=2,               # safety net
             agent_kwargs={
-                "prefix": AgentPrompt,
-                "format_instructions": "Use tools when needed and respond naturally."
+                "prefix": AgentPrompt
+                # "format_instructions": "Use tools when needed and respond naturally."
             }
         )
 
