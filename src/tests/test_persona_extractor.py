@@ -26,4 +26,4 @@ def test_persona_extractor_tool_success(example_input):
     logger.info(f"Extracted: ({subject}, {relation}, {obj})")
 
 
-# pytest src/backend/tests/test_persona_extractor.py -s
+# pytest src/tests/test_persona_extractor.py -s

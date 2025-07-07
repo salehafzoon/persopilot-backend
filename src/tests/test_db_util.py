@@ -1,5 +1,5 @@
 import pytest
-from utils.db_util import Neo4jDB
+from utils.persona_util import Neo4jDB
 
 @pytest.fixture(scope="module")
 def db():
@@ -52,4 +52,4 @@ def test_clear_database(db):
 
 
 
-# pytest src/backend/tests/test_db_util.py -v
+# pytest src/tests/test_db_util.py -v

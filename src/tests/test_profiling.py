@@ -18,4 +18,4 @@ def test_user_profiler_tool_success(dummy_input):
     assert "success" in result.lower() or "inserted" in result.lower()
 
 
-# pytest src/backend/tests/test_profiling.py
+# pytest src/tests/test_profiling.py

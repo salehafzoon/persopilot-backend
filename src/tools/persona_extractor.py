@@ -1,23 +1,36 @@
-# src/backend/tools/persona_extractor.py
+# src/tools/persona_extractor.py
 
+import json
+import torch
+import logging
+import warnings
+from torch import nn
+from typing import Tuple
+from pydantic import BaseModel, Field
 from transformers import BertTokenizerFast, BertModel
 from langchain.tools import StructuredTool
-from pydantic import BaseModel, Field
-from typing import Tuple
-from torch import nn
-import warnings
-import torch
-import json
+
+from src.utils.topic_modeller import TopicModeller
+from src.utils.persona_util import Neo4jPersonaDB
 
 warnings.filterwarnings("ignore")
+
+# ------------------------
+# Logging Setup
+# ------------------------
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # ------------------------
 # Input Schema
 # ------------------------
 
 class SentenceInput(BaseModel):
-    """Input schema for extracting a persona triplet from a user sentence."""
+    """Input schema for extracting and storing a persona fact."""
     sentence: str = Field(..., description="A sentence expressing a user preference or activity.")
+    user_id: str = Field(..., description="The unique ID of the user.")
+    task: str = Field(..., description="The active task context (e.g., 'Content Consumption').")
 
 # ------------------------
 # JointBERT Model Definition
@@ -53,12 +66,12 @@ class JointBertExtractor(nn.Module):
         }
 
 # ------------------------
-# PersonaExtractor Class (encapsulation)
+# PersonaExtractor Class
 # ------------------------
 
 class PersonaExtractor:
     def __init__(self):
-        model_path = "src/backend/llm/PExtractor"
+        model_path = "src/llm/PExtractor"
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # Load model + tokenizer
@@ -70,12 +83,16 @@ class PersonaExtractor:
 
         # Load label maps
         self.id2label = {i: label for i, label in enumerate(['O', 'B-SUB', 'B-OBJ', 'I-OBJ'])}
-        with open("src/backend/data/ConvAI2/u2t_map_all.json", "r") as f:
+        with open("src/data/ConvAI2/u2t_map_all.json", "r") as f:
             raw_data = json.load(f)
         relation_list = sorted({ex["triplets"][0]["label"] for ex in raw_data})
         self.id2relation = {i: rel for i, rel in enumerate(relation_list)}
 
-    def extract(self, sentence: str) -> Tuple[str, str, str]:
+        # Utils
+        self.topic_modeller = TopicModeller()
+        self.persona_db = Neo4jPersonaDB()
+
+    def extract(self, sentence: str, user_id: str, task: str) -> str:
         tokenizer = self.tokenizer
         model = self.model
         device = self.device
@@ -92,35 +109,39 @@ class PersonaExtractor:
         tokens_decoded = tokenizer.convert_ids_to_tokens(inputs["input_ids"].squeeze())
         attention_mask = inputs["attention_mask"].squeeze().cpu().tolist()
 
-        subject = None
         obj_tokens = []
-
         for token, label_id, mask in zip(tokens_decoded, token_preds, attention_mask):
             if mask == 0 or token in ["[PAD]", "[CLS]", "[SEP]"]:
                 continue
             label = id2label.get(label_id, "O")
-            if label == "B-SUB":
-                subject = token
-            elif label.startswith("B-OBJ") or label.startswith("I-OBJ"):
+            if label.startswith("B-OBJ") or label.startswith("I-OBJ"):
                 obj_tokens.append(token)
 
         rel_pred_id = torch.argmax(outputs["relation_logits"], dim=-1).item()
         relation = id2relation[rel_pred_id]
         object_str = tokenizer.convert_tokens_to_string(obj_tokens).strip()
-        subject = subject if subject else "i"
 
-        return subject, relation, object_str
+        # Infer topic
+        topic = self.topic_modeller.infer_topic(object_str)
+
+        # Log
+        logger.info(f"[EXTRACTED] relation='{relation}', object='{object_str}', topic='{topic}', task='{task}'")
+
+        # Store in Neo4j
+        self.persona_db.insert_persona_fact(user_id=user_id, relation=relation, obj=object_str, topic=topic, task=task)
+        logger.info(f"[SAVED TO NEO4J] for user_id='{user_id}'")
+
+        return "Persona fact extracted and stored successfully."
 
 # ------------------------
-# Create Tool
+# Create LangChain Tool
 # ------------------------
 
-# Load model ONCE when tool is created
 extractor_instance = PersonaExtractor()
 
 persona_extractor = StructuredTool(
     name="Persona Extractor",
-    description="Extracts a (subject, relation, object) triplet from a user sentence that reflects a personal preference.",
+    description="Extracts a user persona fact (relation, object, topic) from a sentence and stores it in the user graph.",
     args_schema=SentenceInput,
     func=extractor_instance.extract
 )

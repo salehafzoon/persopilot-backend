@@ -1,5 +1,6 @@
 yfiles_jupyter_graphs
 langchain_community
+duckduckgo_search
 langchain-openai
 python-multipart
 graphdatascience
@@ -20,6 +21,7 @@ pypdf2
 typing
 openai
 dotenv
+tinydb
 torch
 neo4j
 boto3

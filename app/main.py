@@ -1,0 +1,47 @@
+# app/main.py
+from fastapi import FastAPI, Depends, HTTPException
+from pydantic import BaseModel
+from typing import Optional
+from app.agent_factory import get_agent, PersoAgent
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+app = FastAPI(
+    title="PersoAgent API",
+    version="1.0.0",
+    summary="Conversational AI agent with persona extraction"
+)
+
+# -------- Pydantic request / response schemas --------
+class ChatRequest(BaseModel):
+    user_input: str
+    user_id: Optional[str] = "default_user"
+    conversation_id: Optional[str] = "default_conv"
+
+class ChatResponse(BaseModel):
+    reply: str
+
+# -------- Health check --------
+@app.get("/health", tags=["Utility"])
+def health() -> dict:
+    return {"status": "ok"}
+
+# -------- Main chat endpoint --------
+@app.post("/chat", response_model=ChatResponse, tags=["Chat"])
+def chat(
+    payload: ChatRequest,
+    agent: PersoAgent = Depends(get_agent)
+) -> ChatResponse:
+    try:
+        output = agent.handle_task(
+            task=payload.user_input,
+            user_id=payload.user_id,
+            conv_id=payload.conversation_id
+        )
+        return ChatResponse(reply=output)
+    except Exception as e:
+        # Surface a clean 500 instead of FastAPI's default HTML trace
+        raise HTTPException(status_code=500, detail=str(e))

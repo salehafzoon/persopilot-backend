@@ -1,11 +1,12 @@
-# src/backend/agents/agent.py
+# src/agents/agent.py
 
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from src.backend.tools.persona_extractor import persona_extractor
+from src.tools.persona_extractor import persona_extractor
 from langchain.agents import initialize_agent, AgentType
 from langchain_community.llms import HuggingFacePipeline
+from src.tools.searcher import duckduckgo_search_tool 
 from langchain.memory import ConversationBufferMemory
-from src.backend.llm.prompts import AgentPrompt
+from src.llm.prompts import AgentPrompt
 import logging
 import torch
 import os
@@ -13,12 +14,13 @@ import os
 logger = logging.getLogger(__name__)
 
 class PersoAgent:
-    def __init__(self, model_path: str, tokenizer_path: str):
+    def __init__(self, model_path: str, tokenizer_path: str, task: str = "Content Consumption", personas: str = None):
         
         # Load tokenizer and model from provided local folders
         tokenizer = AutoTokenizer.from_pretrained(tokenizer_path, trust_remote_code=True)
         if tokenizer.pad_token is None:
             tokenizer.pad_token = tokenizer.eos_token
+            
         model = AutoModelForCausalLM.from_pretrained(
             model_path,
             trust_remote_code=True,
@@ -32,7 +34,7 @@ class PersoAgent:
             model=model,
             tokenizer=tokenizer,
             max_new_tokens=512,
-            temperature=0.2,
+            temperature=0.04,
             return_full_text=False,
             pad_token_id=tokenizer.eos_token_id
         )
@@ -40,7 +42,7 @@ class PersoAgent:
         self.model = HuggingFacePipeline(pipeline=pipe)
 
         # Register tools
-        self.tools = [persona_extractor]
+        self.tools = [persona_extractor, duckduckgo_search_tool]
         
         # Initialize memory
         self.memory = ConversationBufferMemory(
@@ -58,8 +60,7 @@ class PersoAgent:
             handle_parsing_errors=True,
             # max_iterations=2,               # safety net
             agent_kwargs={
-                "prefix": AgentPrompt
-                # "format_instructions": "Use tools when needed and respond naturally."
+                "prefix": AgentPrompt(task, personas)
             }
         )
 
