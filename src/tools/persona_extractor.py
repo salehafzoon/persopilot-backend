@@ -19,18 +19,16 @@ warnings.filterwarnings("ignore")
 # Logging Setup
 # ------------------------
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 # ------------------------
 # Input Schema
 # ------------------------
 
 class SentenceInput(BaseModel):
-    """Input schema for extracting and storing a persona fact."""
-    sentence: str = Field(..., description="A sentence expressing a user preference or activity.")
-    user_id: str = Field(..., description="The unique ID of the user.")
-    task: str = Field(..., description="The active task context (e.g., 'Content Consumption').")
+    """Input schema for extracting a persona triplet from a user sentence."""
+    sentence: str = Field(..., description="A sentence expressing a user preference.")
 
 # ------------------------
 # JointBERT Model Definition
@@ -70,9 +68,15 @@ class JointBertExtractor(nn.Module):
 # ------------------------
 
 class PersonaExtractor:
-    def __init__(self):
+    def __init__(self, user_id: str, task: str):
+        
+        self.user_id = user_id
+        self.task = task
+        
         model_path = "src/llm/PExtractor"
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        # self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = "cpu"
+        
 
         # Load model + tokenizer
         self.tokenizer = BertTokenizerFast.from_pretrained(model_path)
@@ -92,7 +96,9 @@ class PersonaExtractor:
         self.topic_modeller = TopicModeller()
         self.persona_db = Neo4jPersonaDB()
 
-    def extract(self, sentence: str, user_id: str, task: str) -> str:
+    def extract(self, sentence: str) -> str:
+        logger.info(f"[START] extract() called with: {sentence}")
+        
         tokenizer = self.tokenizer
         model = self.model
         device = self.device
@@ -125,23 +131,30 @@ class PersonaExtractor:
         topic = self.topic_modeller.infer_topic(object_str)
 
         # Log
-        logger.info(f"[EXTRACTED] relation='{relation}', object='{object_str}', topic='{topic}', task='{task}'")
+        logger.info(f"[EXTRACTED] relation='{relation}', object='{object_str}', topic='{topic}', task='{self.task}'")
 
         # Store in Neo4j
-        self.persona_db.insert_persona_fact(user_id=user_id, relation=relation, obj=object_str, topic=topic, task=task)
-        logger.info(f"[SAVED TO NEO4J] for user_id='{user_id}'")
+        self.persona_db.insert_persona_fact(user_id=self.user_id, relation=relation, obj=object_str, topic=topic, task=self.task)
+        logger.info(f"[SAVED TO NEO4J] for user_id='{self.user_id}'")
+        
+        return f"The persona has extracted. Just inform the user."
 
-        return "Persona fact extracted and stored successfully."
 
 # ------------------------
 # Create LangChain Tool
 # ------------------------
 
-extractor_instance = PersonaExtractor()
+from langchain.tools import Tool
 
-persona_extractor = StructuredTool(
-    name="Persona Extractor",
-    description="Extracts a user persona fact (relation, object, topic) from a sentence and stores it in the user graph.",
-    args_schema=SentenceInput,
-    func=extractor_instance.extract
-)
+def get_persona_extractor_tool(user_id: str, task: str) -> Tool:
+    extractor_instance = PersonaExtractor(user_id=user_id, task=task)
+    logger.info(f"[TOOL CREATION] PersonaExtractor instance created successfully")
+
+    
+    return Tool(
+        name="PersonaExtractor",
+        description="Extracts a user persona from the input.",
+        func=extractor_instance.extract,
+        args_schema=SentenceInput 
+    )
+    

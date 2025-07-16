@@ -1,5 +1,5 @@
 import pytest
-from tools.user_profiler import user_profiler_tool, UserProfilerInput
+from tools.community_recommender import user_profiler_tool, UserProfilerInput
 
 @pytest.fixture
 def dummy_input():

@@ -2,7 +2,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional
-from app.agent_factory import get_agent, PersoAgent
+# from app.agent_factory import get_agent, PersoAgent
 import logging
 
 # Configure logging
@@ -30,18 +30,18 @@ def health() -> dict:
     return {"status": "ok"}
 
 # -------- Main chat endpoint --------
-@app.post("/chat", response_model=ChatResponse, tags=["Chat"])
-def chat(
-    payload: ChatRequest,
-    agent: PersoAgent = Depends(get_agent)
-) -> ChatResponse:
-    try:
-        output = agent.handle_task(
-            task=payload.user_input,
-            user_id=payload.user_id,
-            conv_id=payload.conversation_id
-        )
-        return ChatResponse(reply=output)
-    except Exception as e:
-        # Surface a clean 500 instead of FastAPI's default HTML trace
-        raise HTTPException(status_code=500, detail=str(e))
+# @app.post("/chat", response_model=ChatResponse, tags=["Chat"])
+# def chat(
+#     payload: ChatRequest,
+#     agent: PersoAgent = Depends(get_agent)
+# ) -> ChatResponse:
+#     try:
+#         output = agent.handle_task(
+#             task=payload.user_input,
+#             user_id=payload.user_id,
+#             conv_id=payload.conversation_id
+#         )
+#         return ChatResponse(reply=output)
+#     except Exception as e:
+#         # Surface a clean 500 instead of FastAPI's default HTML trace
+#         raise HTTPException(status_code=500, detail=str(e))

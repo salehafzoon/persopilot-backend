@@ -17,7 +17,7 @@ def search_web(query: str) -> str:
     return "\n\n".join(formatted_results)
 
 duckduckgo_search_tool = Tool(
-    name="Web Search",
+    name="WebSearch",
     description="Search the web for current information using DuckDuckGo. Input should be a search query string.",
     func=search_web
 )

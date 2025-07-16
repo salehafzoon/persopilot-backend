@@ -130,6 +130,62 @@ class Neo4jPersonaDB:
             result = session.run(query, user_id=user_id, topic=topic, subject=subject, limit=limit)
             return [record.data() for record in result]
 
+    def get_community_suggestions(self, user_id: str, task: str, limit: int = 10):
+        """
+        Returns all objects under topics related to the specified task,
+        grouped by topic with user counts for explainable recommendations.
+        """
+        query = """
+        // Find all topics under the specified task across all users
+        MATCH (task:Task {name: $task})-[:HAS_TOPIC]->(topic:Topic)
+        MATCH (topic)-[r]->(obj:Object)
+        WHERE topic.user_id = obj.user_id
+        
+        // Group by topic and object, count unique users
+        WITH topic.name AS topic_name, obj.name AS object_name, 
+            COUNT(DISTINCT obj.user_id) AS user_count,
+            COLLECT(DISTINCT type(r)) AS relations
+        
+        RETURN topic_name, object_name, user_count, relations
+        ORDER BY topic_name, user_count DESC, object_name
+        """
+        
+        with self.driver.session() as session:
+            result = session.run(query, task=task, limit=limit)
+            
+            # Group results by topic
+            suggestions = {}
+            for record in result:
+                topic = record['topic_name']
+                if topic not in suggestions:
+                    suggestions[topic] = []
+                suggestions[topic].append({
+                    'object': record['object_name'],
+                    'user_count': record['user_count'],
+                    'relations': record['relations']
+                })
+            
+            return suggestions
+
+    def format_community_suggestions(self, user_id: str, task: str, limit: int = 10):
+        """
+        Returns formatted string of community suggestions for the specified task.
+        """
+        suggestions = self.get_community_suggestions(user_id, task, limit)
+        
+        if not suggestions:
+            return f"No suggestions found for task: {task}"
+        
+        output = [f"Suggestions for all related topics under {task}:"]
+        
+        for topic, objects in suggestions.items():
+            output.append(f"- {topic}:")
+            for obj_data in objects:
+                output.append(f"  . {obj_data['object']}: liked by {obj_data['user_count']} users")
+        
+        return "\n".join(output)
+
+
     def clear_database(self):
         with self.driver.session() as session:
             session.run("MATCH (n) DETACH DELETE n")
