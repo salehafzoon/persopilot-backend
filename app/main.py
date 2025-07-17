@@ -1,7 +1,8 @@
-from fastapi import FastAPI, Depends, HTTPException
+# from app.agent_factory import get_agent, PersoAgent
+from fastapi import FastAPI, Query, Depends, HTTPException
+from src.utils.persona_util import SQLitePersonaDB
 from pydantic import BaseModel
 from typing import Optional
-# from app.agent_factory import get_agent, PersoAgent
 import logging
 import json
 from typing import List
@@ -15,6 +16,9 @@ app = FastAPI(
     version="1.0.0",
     summary="Conversational AI agent with persona extraction"
 )
+
+persona_db = SQLitePersonaDB()
+
 
 # -------- Pydantic request / response schemas --------
 class ChatRequest(BaseModel):
@@ -40,6 +44,15 @@ def get_tasks_and_topics() -> dict:
     
 
 
+@app.get("/persona_graph", tags=["Persona"])
+def get_persona_graph(user_id: str = Query(...), task: str = Query(...)):
+    try:
+        graph_data = persona_db.get_user_persona_graph_by_task(user_id, task)
+        if not graph_data["nodes"]:
+            raise HTTPException(status_code=404, detail="No persona data found for user/task.")
+        return graph_data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # -------- Main chat endpoint --------

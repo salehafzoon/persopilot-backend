@@ -16,6 +16,7 @@ datasets
 protobuf
 fastapi
 uvicorn
+pyngrok
 pytest
 pypdf2
 typing

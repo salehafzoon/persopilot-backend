@@ -11,7 +11,7 @@ from transformers import BertTokenizerFast, BertModel
 from langchain.tools import StructuredTool
 
 from src.utils.topic_modeller import TopicModeller
-from src.utils.persona_util import Neo4jPersonaDB
+from src.utils.persona_util import Neo4jPersonaDB, SQLitePersonaDB
 
 warnings.filterwarnings("ignore")
 
@@ -94,10 +94,11 @@ class PersonaExtractor:
 
         # Utils
         self.topic_modeller = TopicModeller()
-        self.persona_db = Neo4jPersonaDB()
+        # self.persona_db = Neo4jPersonaDB()
+        self.persona_db = SQLitePersonaDB()
 
     def extract(self, sentence: str) -> str:
-        logger.info(f"[START] extract() called with: {sentence}")
+        # logger.info(f"[START] extract() called with: {sentence}")
         
         tokenizer = self.tokenizer
         model = self.model
@@ -135,7 +136,7 @@ class PersonaExtractor:
 
         # Store in Neo4j
         self.persona_db.insert_persona_fact(user_id=self.user_id, relation=relation, obj=object_str, topic=topic, task=self.task)
-        logger.info(f"[SAVED TO NEO4J] for user_id='{self.user_id}'")
+        logger.info(f"[SAVED TO DB] for user_id='{self.user_id}'")
         
         return f"The persona has extracted. Just inform the user."
 
@@ -148,7 +149,7 @@ from langchain.tools import Tool
 
 def get_persona_extractor_tool(user_id: str, task: str) -> Tool:
     extractor_instance = PersonaExtractor(user_id=user_id, task=task)
-    logger.info(f"[TOOL CREATION] PersonaExtractor instance created successfully")
+    # logger.info(f"[TOOL CREATION] PersonaExtractor instance created successfully")
 
     
     return Tool(

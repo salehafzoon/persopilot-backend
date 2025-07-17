@@ -1,6 +1,8 @@
 import logging
 from neo4j import GraphDatabase
 from dotenv import load_dotenv
+from typing import List, Dict
+import sqlite3
 import os
 
 logger = logging.getLogger("persona_util")
@@ -88,51 +90,6 @@ class Neo4jPersonaDB:
             )
         logger.info(f"Persona fact inserted for user {user_id}")
 
-    def get_user_profile(self, user_id: str):
-        logger.info(f"Getting user profile for user: {user_id}")
-        query = """
-        MATCH (u:User {id: $user_id})
-              -[:INITIATES_TASK]->(task:Task {user_id: $user_id})
-              -[:HAS_TOPIC]->(topic:Topic {user_id: $user_id})
-        MATCH (topic)-[r]->(obj:Object {user_id: $user_id})
-        RETURN type(r) AS relation, obj.name AS object, topic.name AS topic, task.name AS task
-        """
-        with self.driver.session() as session:
-            result = session.run(query, user_id=user_id)
-            data = [record.data() for record in result]
-        logger.info(f"User profile retrieved for user: {user_id}")
-        return data
-
-    def recommend_objects_from_similar_users(self, user_id: str, topic: str, subject: str, limit: int = 5):
-        logger.info(f"Recommending objects for user {user_id} on topic '{topic}' and subject '{subject}'")
-        query = """
-        MATCH (:Topic {name: $topic, user_id: $user_id})-[:REFERS_TO]->(gt:GlobalTopic)
-        MATCH (:Object {name: $subject, user_id: $user_id})-[:REFERS_TO]->(go:GlobalObject)
-
-        // Find other users with the same subject under same topic
-        MATCH (other_obj:Object)-[:REFERS_TO]->(go)
-        MATCH (other_topic:Topic)-[:REFERS_TO]->(gt)
-        WHERE other_obj.user_id <> $user_id AND other_topic.user_id = other_obj.user_id
-
-        // Ensure they’re actually connected
-        MATCH (other_topic)-[r1]->(other_obj)
-
-        // Get other objects under same topic from same users
-        MATCH (other_topic)-[r2]->(o:Object)
-        WHERE o.name <> $subject AND o.user_id = other_topic.user_id
-
-        RETURN DISTINCT o.name AS recommended_object,
-                        COUNT(DISTINCT other_obj.user_id) AS supporting_users,
-                        COLLECT(DISTINCT type(r2)) AS relations
-        ORDER BY supporting_users DESC
-        LIMIT $limit
-        """
-        with self.driver.session() as session:
-            result = session.run(query, user_id=user_id, topic=topic, subject=subject, limit=limit)
-            data = [record.data() for record in result]
-        logger.info(f"Recommendations generated for user {user_id}")
-        return data
-
     def get_community_suggestions(self, user_id: str, task: str, limit: int = 10):
         logger.info(f"Getting community suggestions for user {user_id} and task '{task}'")
         query = """
@@ -185,8 +142,177 @@ class Neo4jPersonaDB:
         logger.info(f"Formatted community suggestions for task '{task}'")
         return "\n".join(output)
 
+    def get_user_persona_graph_by_task(self, user_id: str, task: str) -> dict:
+        query = """
+        MATCH (u:User {id: $user_id})-[:HAS_FACT]->(f:Fact)-[:UNDER_TASK]->(t:Task {name: $task})
+        RETURN f.topic AS topic, f.relation AS relation, f.object AS object
+        """
+        with self.driver.session() as session:
+            records = session.run(query, user_id=user_id, task=task)
+
+            # Base nodes
+            nodes = {
+                user_id: {"id": user_id, "label": user_id, "type": "User"},
+                task: {"id": task, "label": task, "type": "Task"}
+            }
+            edges = [
+                {"source": user_id, "target": task, "label": "has_task"}
+            ]
+
+            # Add topic → object connections
+            for record in records:
+                topic = record["topic"]
+                obj = record["object"]
+                relation = record["relation"]
+
+                # Create topic node if not exists
+                if topic not in nodes:
+                    nodes[topic] = {"id": topic, "label": topic, "type": "Topic"}
+
+                # Create object node if not exists
+                if obj not in nodes:
+                    nodes[obj] = {"id": obj, "label": obj, "type": "Object"}
+
+                # Connect task → topic
+                edges.append({
+                    "source": task,
+                    "target": topic,
+                    "label": "has_topic"
+                })
+
+                # Connect topic → object (use relation as label)
+                edges.append({
+                    "source": topic,
+                    "target": obj,
+                    "label": relation
+                })
+
+            return {
+                "nodes": list(nodes.values()),
+                "edges": edges
+            }
+
 
     def clear_database(self):
         logger.warning("Clearing the entire Neo4j database!")
         with self.driver.session() as session:
             session.run("MATCH (n) DETACH DELETE n")
+
+class SQLitePersonaDB:
+    def __init__(self, db_path="src/data/persona.db"):
+        # logger.info("Initializing SQLitePersonaDB")
+        self.conn = sqlite3.connect(db_path, check_same_thread=False)
+        self._create_table()
+        logger.info("SQLitePersonaDB initialized")
+
+    def _create_table(self):
+        # logger.info("Creating table if not exists")
+        with self.conn:
+            self.conn.execute("""
+                CREATE TABLE IF NOT EXISTS persona_facts (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id TEXT NOT NULL,
+                    task TEXT NOT NULL,
+                    topic TEXT NOT NULL,
+                    relation TEXT NOT NULL,
+                    object TEXT NOT NULL
+                );
+            """)
+        # logger.info("Table ensured")
+
+    def close(self):
+        logger.info("Closing SQLite connection")
+        self.conn.close()
+
+    def create_user(self, user_id: str):
+        # Not needed in SQLite unless you want a separate users table
+        logger.info(f"create_user() skipped (user_id tracked in facts): {user_id}")
+
+    def insert_persona_fact(self, user_id: str, relation: str, obj: str, topic: str, task: str):
+        with self.conn:
+            self.conn.execute("""
+                INSERT INTO persona_facts (user_id, relation, object, topic, task)
+                VALUES (?, ?, ?, ?, ?)
+            """, (user_id, relation, obj, topic, task))
+        
+        logger.info(f"Insert complete: {user_id}, {relation}, {obj}, {topic}, {task}")
+
+    def get_community_suggestions(self, user_id: str, task: str, limit: int = 10):
+        # logger.info(f"Getting community suggestions for task '{task}' (excluding user: {user_id})")
+        query = """
+        SELECT topic, object, relation, COUNT(DISTINCT user_id) as user_count
+        FROM persona_facts
+        WHERE task = ? AND user_id != ?
+        GROUP BY topic, object, relation
+        ORDER BY topic, user_count DESC
+        LIMIT ?
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(query, (task, user_id, limit))
+        records = cursor.fetchall()
+
+        suggestions = {}
+        for topic, obj, relation, count in records:
+            if topic not in suggestions:
+                suggestions[topic] = []
+            suggestions[topic].append({
+                "object": obj,
+                "user_count": count,
+                "relations": [relation]
+            })
+
+        # logger.info("Community suggestions retrieved")
+        return suggestions
+
+    def format_community_suggestions(self, user_id: str, task: str, limit: int = 10) -> str:
+        logger.info(f"Formatting suggestions for user {user_id} and task '{task}'")
+        suggestions = self.get_community_suggestions(user_id, task, limit)
+
+        if not suggestions:
+            return f"No suggestions found for task: {task}"
+
+        output = [f"Suggestions for all related topics under {task}:"]
+        for topic, objects in suggestions.items():
+            output.append(f"- {topic}:")
+            for obj in objects:
+                output.append(f"  . {obj['object']}: liked by {obj['user_count']} users")
+
+        return "\n".join(output)
+
+    def get_user_persona_graph_by_task(self, user_id: str, task: str) -> dict:
+        logger.info(f"Building persona graph for user '{user_id}' and task '{task}'")
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT topic, relation, object
+            FROM persona_facts
+            WHERE user_id = ? AND task = ?
+        """, (user_id, task))
+        records = cursor.fetchall()
+
+        # Base nodes
+        nodes = {
+            user_id: {"id": user_id, "label": user_id, "type": "User"},
+            task: {"id": task, "label": task, "type": "Task"}
+        }
+        edges = [{"source": user_id, "target": task, "label": "has_task"}]
+
+        for topic, relation, obj in records:
+            if topic not in nodes:
+                nodes[topic] = {"id": topic, "label": topic, "type": "Topic"}
+            if obj not in nodes:
+                nodes[obj] = {"id": obj, "label": obj, "type": "Object"}
+
+            edges.append({"source": task, "target": topic, "label": "has_topic"})
+            edges.append({"source": topic, "target": obj, "label": relation})
+
+        logger.info("Persona graph built")
+        return {
+            "nodes": list(nodes.values()),
+            "edges": edges
+        }
+
+    def clear_database(self):
+        logger.warning("Clearing all persona facts from SQLite!")
+        with self.conn:
+            self.conn.execute("DELETE FROM persona_facts")
+        logger.info("All facts cleared")
