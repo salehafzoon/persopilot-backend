@@ -6,3 +6,5 @@ Neo4j-*
 
 LLMs/*
 Tokenizers/*
+
+user_graph.py

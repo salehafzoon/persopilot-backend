@@ -1,9 +1,10 @@
-# app/main.py
 from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 # from app.agent_factory import get_agent, PersoAgent
 import logging
+import json
+from typing import List
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -28,6 +29,18 @@ class ChatResponse(BaseModel):
 @app.get("/health", tags=["Utility"])
 def health() -> dict:
     return {"status": "ok"}
+
+
+# ----------- APIs -----------
+@app.get("/tasks", tags=["Utility"])
+def get_tasks_and_topics() -> dict:
+    with open("src/data/task_topic.json", "r", encoding="utf-8") as f:
+        task_topic_data = json.load(f)
+    return task_topic_data
+    
+
+
+
 
 # -------- Main chat endpoint --------
 # @app.post("/chat", response_model=ChatResponse, tags=["Chat"])

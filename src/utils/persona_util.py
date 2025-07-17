@@ -1,24 +1,28 @@
+import logging
 from neo4j import GraphDatabase
 from dotenv import load_dotenv
 import os
 
+logger = logging.getLogger("persona_util")
+logging.basicConfig(level=logging.INFO)
+
 class Neo4jPersonaDB:
     def __init__(self):
+        logger.info("Initializing Neo4jPersonaDB")
         load_dotenv()
         uri = os.getenv("NEO4J_URI")
         user = os.getenv("NEO4J_USER")
         password = os.getenv("NEO4J_PASSWORD")
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
         self._create_constraints()
+        logger.info("Neo4jPersonaDB initialized")
 
     def close(self):
+        logger.info("Closing Neo4j driver")
         self.driver.close()
 
     def _create_constraints(self):
-        """
-        Ensures uniqueness of Task, Topic, and Object nodes per user_id.
-        Also ensures uniqueness of GlobalTopic and GlobalObject.
-        """
+        logger.info("Creating constraints in Neo4j")
         with self.driver.session() as session:
             session.run("""
                 CREATE CONSTRAINT IF NOT EXISTS
@@ -45,16 +49,17 @@ class Neo4jPersonaDB:
                 FOR (go:GlobalObject)
                 REQUIRE go.name IS UNIQUE
             """)
+        logger.info("Constraints created")
 
     def create_user(self, user_id: str):
+        logger.info(f"Creating user: {user_id}")
         query = "MERGE (:User {id: $user_id})"
         with self.driver.session() as session:
             session.run(query, user_id=user_id)
+        logger.info(f"User created: {user_id}")
 
     def insert_persona_fact(self, user_id: str, relation: str, obj: str, topic: str, task: str):
-        """
-        Stores a user-specific persona fact and links topic/object to global references.
-        """
+        logger.info(f"Inserting persona fact for user {user_id}: relation={relation}, object={obj}, topic={topic}, task={task}")
         query = f"""
         MERGE (u:User {{id: $user_id}})
         MERGE (task:Task {{name: $task, user_id: $user_id}})
@@ -81,12 +86,10 @@ class Neo4jPersonaDB:
                 topic=topic,
                 task=task
             )
+        logger.info(f"Persona fact inserted for user {user_id}")
 
     def get_user_profile(self, user_id: str):
-        """
-        Returns a list of user persona facts:
-        {relation, object, topic, task}
-        """
+        logger.info(f"Getting user profile for user: {user_id}")
         query = """
         MATCH (u:User {id: $user_id})
               -[:INITIATES_TASK]->(task:Task {user_id: $user_id})
@@ -96,14 +99,12 @@ class Neo4jPersonaDB:
         """
         with self.driver.session() as session:
             result = session.run(query, user_id=user_id)
-            return [record.data() for record in result]
+            data = [record.data() for record in result]
+        logger.info(f"User profile retrieved for user: {user_id}")
+        return data
 
     def recommend_objects_from_similar_users(self, user_id: str, topic: str, subject: str, limit: int = 5):
-        """
-        Recommends other objects under the same topic,
-        based on users who also added the same subject.
-        Also returns how many users had that shared subject (XAI).
-        """
+        logger.info(f"Recommending objects for user {user_id} on topic '{topic}' and subject '{subject}'")
         query = """
         MATCH (:Topic {name: $topic, user_id: $user_id})-[:REFERS_TO]->(gt:GlobalTopic)
         MATCH (:Object {name: $subject, user_id: $user_id})-[:REFERS_TO]->(go:GlobalObject)
@@ -128,13 +129,12 @@ class Neo4jPersonaDB:
         """
         with self.driver.session() as session:
             result = session.run(query, user_id=user_id, topic=topic, subject=subject, limit=limit)
-            return [record.data() for record in result]
+            data = [record.data() for record in result]
+        logger.info(f"Recommendations generated for user {user_id}")
+        return data
 
     def get_community_suggestions(self, user_id: str, task: str, limit: int = 10):
-        """
-        Returns all objects under topics related to the specified task,
-        grouped by topic with user counts for explainable recommendations.
-        """
+        logger.info(f"Getting community suggestions for user {user_id} and task '{task}'")
         query = """
         // Find all topics under the specified task across all users
         MATCH (task:Task {name: $task})-[:HAS_TOPIC]->(topic:Topic)
@@ -164,16 +164,15 @@ class Neo4jPersonaDB:
                     'user_count': record['user_count'],
                     'relations': record['relations']
                 })
-            
-            return suggestions
+        logger.info(f"Community suggestions retrieved for task '{task}'")
+        return suggestions
 
     def format_community_suggestions(self, user_id: str, task: str, limit: int = 10):
-        """
-        Returns formatted string of community suggestions for the specified task.
-        """
+        logger.info(f"Formatting community suggestions for user {user_id} and task '{task}'")
         suggestions = self.get_community_suggestions(user_id, task, limit)
         
         if not suggestions:
+            logger.info(f"No suggestions found for task: {task}")
             return f"No suggestions found for task: {task}"
         
         output = [f"Suggestions for all related topics under {task}:"]
@@ -183,9 +182,11 @@ class Neo4jPersonaDB:
             for obj_data in objects:
                 output.append(f"  . {obj_data['object']}: liked by {obj_data['user_count']} users")
         
+        logger.info(f"Formatted community suggestions for task '{task}'")
         return "\n".join(output)
 
 
     def clear_database(self):
+        logger.warning("Clearing the entire Neo4j database!")
         with self.driver.session() as session:
             session.run("MATCH (n) DETACH DELETE n")

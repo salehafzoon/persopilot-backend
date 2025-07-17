@@ -1,14 +1,15 @@
 from transformers import pipeline
 from typing import List
+import json
 
 class TopicModeller:
     def __init__(self, topic_list: List[str] = None):
+
+        with open("src/data/task_topic.json", "r", encoding="utf-8") as f:
+            task_topic_data = json.load(f)
+
         # Define default topic list if not provided
-        self.topics = topic_list or [
-            "Book", "Movie", "Music", "Game",  # For Content Consumption
-            "Exercise", "Mental Health", "Food",       # For Lifestyle Optimization
-            "Career", "Skill", "Education"     # For Career Development
-        ]
+        self.topics = [topic for topics in task_topic_data.values() for topic in topics]
         
         # Load zero-shot classifier pipeline with BART
         self.classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
