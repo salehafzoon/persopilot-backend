@@ -1,26 +1,30 @@
 [
-    {
-        "name": "Gamer Identification",
-        "description": "Classify users based on whether they actively play video or board games.",
-        "label1": "Gamer",
-        "label2": "Non-Gamer"
-    },
-    {
-        "name": "Camping Enthusiast",
-        "description": "Classify users according to their interest and participation in camping and outdoor activities.",
-        "label1": "Camping Enthusiast",
-        "label2": "Not Enthusiast"
-    },
-    {
-        "name": "Bookworm",
-        "description": "Classify users based on their passion for reading books and literature.",
-        "label1": "Bookworm",
-        "label2": "Casual Reader"
-    },
-    {
-        "name": "Career Path Preference",
-        "description": "Classify users based on their preferred career path: pursuing academia versus industry jobs.",
-        "label1": "Academia-Oriented",
-        "label2": "Industry-Oriented"
-    }
+  {
+    "name": "Gamer Identification",
+    "description": "Classify users based on whether they actively play video or board games.",
+    "label1": "Gamer",
+    "label2": "Non-Gamer",
+    "offer_message": "Unlock exclusive early access to the latest gaming gear by joining our Gamer ID program!"
+  },
+  {
+    "name": "Camping Enthusiast",
+    "description": "Classify users according to their interest and participation in camping and outdoor activities.",
+    "label1": "Camping Enthusiast",
+    "label2": "Not Enthusiast",
+    "offer_message": "Join our Outdoor Rewards Club and get discounts on top camping gear\u2014start by sharing your adventure style!"
+  },
+  {
+    "name": "Bookworm",
+    "description": "Classify users based on their passion for reading books and literature.",
+    "label1": "Bookworm",
+    "label2": "Casual Reader",
+    "offer_message": "Discover your next favorite book\u2014help us tailor book boxes just for you by joining our Bookworm program!"
+  },
+  {
+    "name": "Career Path Preference",
+    "description": "Classify users based on their preferred career path: pursuing academia versus industry jobs.",
+    "label1": "Academia-Oriented",
+    "label2": "Industry-Oriented",
+    "offer_message": "Shape your future\u2014get personalized resources for academia or industry by joining our career navigator initiative!"
+  }
 ]

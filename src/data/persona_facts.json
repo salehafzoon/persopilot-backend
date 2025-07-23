@@ -1,6 +1,6 @@
 [
   {
-    "user_index": 0,
+    "username": "user_01",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -59,7 +59,7 @@
     ]
   },
   {
-    "user_index": 1,
+    "username": "user_02",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -118,7 +118,7 @@
     ]
   },
   {
-    "user_index": 2,
+    "username": "user_03",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -177,7 +177,7 @@
     ]
   },
   {
-    "user_index": 3,
+    "username": "user_04",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -236,7 +236,7 @@
     ]
   },
   {
-    "user_index": 4,
+    "username": "user_05",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -295,7 +295,7 @@
     ]
   },
   {
-    "user_index": 5,
+    "username": "user_06",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -354,7 +354,7 @@
     ]
   },
   {
-    "user_index": 6,
+    "username": "user_07",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -413,7 +413,7 @@
     ]
   },
   {
-    "user_index": 7,
+    "username": "user_08",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -472,7 +472,7 @@
     ]
   },
   {
-    "user_index": 8,
+    "username": "user_09",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -531,7 +531,7 @@
     ]
   },
   {
-    "user_index": 9,
+    "username": "user_10",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -590,7 +590,7 @@
     ]
   },
   {
-    "user_index": 10,
+    "username": "user_11",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -649,7 +649,7 @@
     ]
   },
   {
-    "user_index": 11,
+    "username": "user_12",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -708,7 +708,7 @@
     ]
   },
   {
-    "user_index": 12,
+    "username": "user_13",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -773,7 +773,7 @@
     ]
   },
   {
-    "user_index": 13,
+    "username": "user_14",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -832,7 +832,7 @@
     ]
   },
   {
-    "user_index": 14,
+    "username": "user_15",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -891,7 +891,7 @@
     ]
   },
   {
-    "user_index": 15,
+    "username": "user_16",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -956,7 +956,7 @@
     ]
   },
   {
-    "user_index": 16,
+    "username": "user_17",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1015,7 +1015,7 @@
     ]
   },
   {
-    "user_index": 17,
+    "username": "user_18",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1080,7 +1080,7 @@
     ]
   },
   {
-    "user_index": 18,
+    "username": "user_19",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1145,7 +1145,7 @@
     ]
   },
   {
-    "user_index": 19,
+    "username": "user_20",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1204,7 +1204,7 @@
     ]
   },
   {
-    "user_index": 20,
+    "username": "user_21",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1263,7 +1263,7 @@
     ]
   },
   {
-    "user_index": 21,
+    "username": "user_22",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1328,7 +1328,7 @@
     ]
   },
   {
-    "user_index": 22,
+    "username": "user_23",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1387,66 +1387,7 @@
     ]
   },
   {
-    "user_index": 23,
-    "facts": [
-      {
-        "task_name": "Content Consumption",
-        "topic": "Book",
-        "relation": "likes",
-        "object": "reading mysteries"
-      },
-      {
-        "task_name": "Content Consumption",
-        "topic": "Movie",
-        "relation": "likes",
-        "object": "watching historical dramas"
-      },
-      {
-        "task_name": "Content Consumption",
-        "topic": "Music",
-        "relation": "likes",
-        "object": "reggae music"
-      },
-      {
-        "task_name": "Content Consumption",
-        "topic": "Game",
-        "relation": "plays",
-        "object": "strategy games"
-      },
-      {
-        "task_name": "Lifestyle Optimization",
-        "topic": "Exercise",
-        "relation": "has_hobby",
-        "object": "rowing"
-      },
-      {
-        "task_name": "Lifestyle Optimization",
-        "topic": "Mental Health",
-        "relation": "focuses_on",
-        "object": "counseling"
-      },
-      {
-        "task_name": "Career Development",
-        "topic": "Career",
-        "relation": "prefers_path",
-        "object": "academia"
-      },
-      {
-        "task_name": "Career Development",
-        "topic": "Skill",
-        "relation": "has_skill",
-        "object": "critical thinking"
-      },
-      {
-        "task_name": "Career Development",
-        "topic": "Education",
-        "relation": "studied_at",
-        "object": "Sorbonne"
-      }
-    ]
-  },
-  {
-    "user_index": 24,
+    "username": "user_24",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1511,7 +1452,7 @@
     ]
   },
   {
-    "user_index": 25,
+    "username": "user_25",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1576,7 +1517,7 @@
     ]
   },
   {
-    "user_index": 26,
+    "username": "user_26",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1641,7 +1582,7 @@
     ]
   },
   {
-    "user_index": 27,
+    "username": "user_27",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1706,7 +1647,7 @@
     ]
   },
   {
-    "user_index": 28,
+    "username": "user_28",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1765,7 +1706,7 @@
     ]
   },
   {
-    "user_index": 29,
+    "username": "user_29",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1830,7 +1771,7 @@
     ]
   },
   {
-    "user_index": 30,
+    "username": "user_30",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1889,7 +1830,7 @@
     ]
   },
   {
-    "user_index": 31,
+    "username": "user_31",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -1954,7 +1895,7 @@
     ]
   },
   {
-    "user_index": 32,
+    "username": "user_32",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -2019,7 +1960,7 @@
     ]
   },
   {
-    "user_index": 33,
+    "username": "user_33",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -2078,7 +2019,7 @@
     ]
   },
   {
-    "user_index": 34,
+    "username": "user_34",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -2137,7 +2078,7 @@
     ]
   },
   {
-    "user_index": 35,
+    "username": "user_35",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -2202,7 +2143,7 @@
     ]
   },
   {
-    "user_index": 36,
+    "username": "user_36",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -2267,7 +2208,7 @@
     ]
   },
   {
-    "user_index": 37,
+    "username": "user_37",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -2332,7 +2273,7 @@
     ]
   },
   {
-    "user_index": 38,
+    "username": "user_38",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -2397,7 +2338,7 @@
     ]
   },
   {
-    "user_index": 39,
+    "username": "user_39",
     "facts": [
       {
         "task_name": "Content Consumption",
@@ -2440,6 +2381,65 @@
         "topic": "Career",
         "relation": "prefers_path",
         "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "critical thinking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Sorbonne"
+      }
+    ]
+  },
+  {
+    "username": "user_40",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading mysteries"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching historical dramas"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "reggae music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "strategy games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "rowing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "counseling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
       },
       {
         "task_name": "Career Development",

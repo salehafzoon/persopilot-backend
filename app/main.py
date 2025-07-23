@@ -20,15 +20,6 @@ app = FastAPI(
 persona_db = SQLitePersonaDB()
 
 
-# -------- Pydantic request / response schemas --------
-class ChatRequest(BaseModel):
-    user_input: str
-    user_id: Optional[str] = "default_user"
-    conversation_id: Optional[str] = "default_conv"
-
-class ChatResponse(BaseModel):
-    reply: str
-
 # -------- Health check --------
 @app.get("/health", tags=["Utility"])
 def health() -> dict:
@@ -38,16 +29,62 @@ def health() -> dict:
 # ----------- APIs -----------
 @app.get("/tasks", tags=["Utility"])
 def get_tasks_and_topics() -> dict:
-    with open("src/data/task_topic.json", "r", encoding="utf-8") as f:
-        task_topic_data = json.load(f)
-    return task_topic_data
     
+    task_topics = persona_db.get_all_tasks()
+    return {"tasks": task_topics}
+
+
+@app.get("/users", tags=["User"])
+def get_all_users():
+    cursor = persona_db.conn.cursor()
+    cursor.execute("SELECT username, full_name, age, gender, role FROM User")
+    rows = cursor.fetchall()
+    users = [
+        {"username": row[0], "full_name": row[1], "age": row[2], "gender": row[3], "role": row[4]}
+        for row in rows
+    ]
+    return {"users": users}
+
+
+@app.get("/classification_tasks", tags=["ClassificationTask"])
+def get_all_classification_tasks():
+    cursor = persona_db.conn.cursor()
+    cursor.execute("""
+        SELECT id, name, description, label1, label2, offer_message, date, username
+        FROM ClassificationTask
+    """)
+    rows = cursor.fetchall()
+    tasks = [
+        {
+            "id": row[0],
+            "name": row[1],
+            "description": row[2],
+            "label1": row[3],
+            "label2": row[4],
+            "offer_message": row[5],
+            "date": row[6],
+            "username": row[7]
+        }
+        for row in rows
+    ]
+    return {"classification_tasks": tasks}
+
+
+@app.get("/persona_facts", tags=["Persona"])
+def get_persona_facts(username: str = Query(...)):
+    try:
+        facts = persona_db.get_all_persona_facts(username)
+        if not facts:
+            raise HTTPException(status_code=404, detail="No persona facts found for user.")
+        return facts
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/persona_graph", tags=["Persona"])
-def get_persona_graph(user_id: str = Query(...), task: str = Query(...)):
+def get_persona_graph(username: str = Query(...), task_id: int = Query(...)):
     try:
-        graph_data = persona_db.get_user_persona_graph_by_task(user_id, task)
+        graph_data = persona_db.get_user_persona_graph_by_task(username, task_id)
         if not graph_data["nodes"]:
             raise HTTPException(status_code=404, detail="No persona data found for user/task.")
         return graph_data
