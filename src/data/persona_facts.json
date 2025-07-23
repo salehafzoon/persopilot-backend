@@ -1,0 +1,2458 @@
+[
+  {
+    "user_index": 0,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading novels"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching sci-fi"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "classical music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "video games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "jogging"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "mindfulness"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "python programming"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "MIT"
+      }
+    ]
+  },
+  {
+    "user_index": 1,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading biographies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching comedies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "pop music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "board games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "cycling"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "meditation"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "project management"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Stanford"
+      }
+    ]
+  },
+  {
+    "user_index": 2,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading science fiction"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching documentaries"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "rock music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "card games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "swimming"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "yoga"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "data analysis"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Harvard"
+      }
+    ]
+  },
+  {
+    "user_index": 3,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading mysteries"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching thrillers"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "jazz music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "puzzle games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "hiking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "marketing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Oxford"
+      }
+    ]
+  },
+  {
+    "user_index": 4,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading poetry"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching animations"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "electronic music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "strategy games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "running"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Cambridge"
+      }
+    ]
+  },
+  {
+    "user_index": 5,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading history"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching action movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "folk music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "role-playing games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "yoga"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "self-reflection"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "graphic design"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Berkeley"
+      }
+    ]
+  },
+  {
+    "user_index": 6,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading graphic novels"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching fantasy movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "indie music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "mobile games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "pilates"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "teaching"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Yale"
+      }
+    ]
+  },
+  {
+    "user_index": 7,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading travel guides"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching romance movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "country music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "sports games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "mountain biking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "breathing exercises"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "networking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Princeton"
+      }
+    ]
+  },
+  {
+    "user_index": 8,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading cookbooks"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching adventure movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "blues music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "simulation games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "climbing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "reading self-help"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Columbia"
+      }
+    ]
+  },
+  {
+    "user_index": 9,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading children's books"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching animated movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "hip hop music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "arcade games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "skating"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "positive affirmations"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "software development"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "UCLA"
+      }
+    ]
+  },
+  {
+    "user_index": 10,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading philosophy"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching historical dramas"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "reggae music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "strategy board games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "rowing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "counseling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "critical thinking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Sorbonne"
+      }
+    ]
+  },
+  {
+    "user_index": 11,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading cookbooks"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching fantasy movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "indie music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "strategy games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "pilates"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "teaching"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Yale"
+      }
+    ]
+  },
+  {
+    "user_index": 12,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading philosophy"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching fantasy movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "indie music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "arcade games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "pilates"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "teaching"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Yale"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "has_experience_with",
+        "object": "campfire cooking"
+      }
+    ]
+  },
+  {
+    "user_index": 13,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading science fiction"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching fantasy movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "indie music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "puzzle games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "pilates"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "teaching"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Yale"
+      }
+    ]
+  },
+  {
+    "user_index": 14,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading graphic novels"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching action movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "folk music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "simulation games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "yoga"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "self-reflection"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "graphic design"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Berkeley"
+      }
+    ]
+  },
+  {
+    "user_index": 15,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading cookbooks"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching animated movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "hip hop music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "simulation games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "skating"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "positive affirmations"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "software development"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "UCLA"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "has_hobby",
+        "object": "outdoor adventures"
+      }
+    ]
+  },
+  {
+    "user_index": 16,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading poetry"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching fantasy movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "indie music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "mobile games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "pilates"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "teaching"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Yale"
+      }
+    ]
+  },
+  {
+    "user_index": 17,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading travel guides"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching comedies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "pop music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "video games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "cycling"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "meditation"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "project management"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Stanford"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "has_hobby",
+        "object": "outdoor adventures"
+      }
+    ]
+  },
+  {
+    "user_index": 18,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading science fiction"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching adventure movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "blues music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "card games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "climbing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "reading self-help"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Columbia"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "has_experience_with",
+        "object": "campfire cooking"
+      }
+    ]
+  },
+  {
+    "user_index": 19,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading science fiction"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching adventure movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "blues music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "strategy games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "climbing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "reading self-help"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Columbia"
+      }
+    ]
+  },
+  {
+    "user_index": 20,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading children's books"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching sci-fi"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "classical music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "board games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "jogging"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "mindfulness"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "python programming"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "MIT"
+      }
+    ]
+  },
+  {
+    "user_index": 21,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading academic journals"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching romance movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "country music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "arcade games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "mountain biking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "breathing exercises"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "networking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Princeton"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "has_hobby",
+        "object": "outdoor adventures"
+      }
+    ]
+  },
+  {
+    "user_index": 22,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading graphic novels"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching adventure movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "blues music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "card games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "climbing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "reading self-help"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Columbia"
+      }
+    ]
+  },
+  {
+    "user_index": 23,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading mysteries"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching historical dramas"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "reggae music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "strategy games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "rowing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "counseling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "critical thinking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Sorbonne"
+      }
+    ]
+  },
+  {
+    "user_index": 24,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading poetry"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching historical dramas"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "reggae music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "role-playing games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "rowing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "counseling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "critical thinking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Sorbonne"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "national parks"
+      }
+    ]
+  },
+  {
+    "user_index": 25,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading novels"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching animated movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "hip hop music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "card games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "skating"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "positive affirmations"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "software development"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "UCLA"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "enjoys",
+        "object": "camping trips"
+      }
+    ]
+  },
+  {
+    "user_index": 26,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading poetry"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching animated movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "hip hop music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "strategy games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "skating"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "positive affirmations"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "software development"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "UCLA"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "likes",
+        "object": "backpacking"
+      }
+    ]
+  },
+  {
+    "user_index": 27,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading children's books"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching thrillers"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "jazz music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "mobile games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "hiking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "marketing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Oxford"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "national parks"
+      }
+    ]
+  },
+  {
+    "user_index": 28,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading academic journals"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching comedies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "pop music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "arcade games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "cycling"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "meditation"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "project management"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Stanford"
+      }
+    ]
+  },
+  {
+    "user_index": 29,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading science fiction"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching animated movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "hip hop music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "board games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "skating"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "positive affirmations"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "software development"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "UCLA"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "likes",
+        "object": "hiking and sleeping in tents"
+      }
+    ]
+  },
+  {
+    "user_index": 30,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading history"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching animated movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "hip hop music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "simulation games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "skating"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "positive affirmations"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "software development"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "UCLA"
+      }
+    ]
+  },
+  {
+    "user_index": 31,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading mysteries"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching adventure movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "blues music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "role-playing games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "climbing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "reading self-help"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Columbia"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "likes",
+        "object": "hiking and sleeping in tents"
+      }
+    ]
+  },
+  {
+    "user_index": 32,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading novels"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching thrillers"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "jazz music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "card games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "hiking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "marketing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Oxford"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "has_hobby",
+        "object": "camping"
+      }
+    ]
+  },
+  {
+    "user_index": 33,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading cookbooks"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching fantasy movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "indie music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "sports games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "pilates"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "teaching"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Yale"
+      }
+    ]
+  },
+  {
+    "user_index": 34,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading graphic novels"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching historical dramas"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "reggae music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "card games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "rowing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "counseling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "critical thinking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Sorbonne"
+      }
+    ]
+  },
+  {
+    "user_index": 35,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading graphic novels"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching animations"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "electronic music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "video games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "running"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Cambridge"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "likes",
+        "object": "hiking and sleeping in tents"
+      }
+    ]
+  },
+  {
+    "user_index": 36,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading philosophy"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching historical dramas"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "reggae music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "strategy games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "rowing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "counseling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "academia"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "critical thinking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Sorbonne"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "has_hobby",
+        "object": "outdoor adventures"
+      }
+    ]
+  },
+  {
+    "user_index": 37,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading mysteries"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching romance movies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "country music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "role-playing games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "mountain biking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "breathing exercises"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "networking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Princeton"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "has_experience_with",
+        "object": "campfire cooking"
+      }
+    ]
+  },
+  {
+    "user_index": 38,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading biographies"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching thrillers"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "jazz music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "arcade games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "hiking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "marketing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Oxford"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "has_experience_with",
+        "object": "campfire cooking"
+      }
+    ]
+  },
+  {
+    "user_index": 39,
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "likes",
+        "object": "reading academic journals"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "likes",
+        "object": "watching historical dramas"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "likes",
+        "object": "reggae music"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "role-playing games"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "rowing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "counseling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_path",
+        "object": "industry"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "critical thinking"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "studied_at",
+        "object": "Sorbonne"
+      }
+    ]
+  }
+]
