@@ -25,7 +25,8 @@ class SQLitePersonaDB:
             self.conn.execute("""
                 CREATE TABLE IF NOT EXISTS Task (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL
+                    name TEXT NOT NULL,
+                    description TEXT
                 );
             """)
             self.conn.execute("""
@@ -94,12 +95,11 @@ class SQLitePersonaDB:
             return {"username": row[0], "full_name": row[1], "age": row[2], "gender": row[3], "role": row[4]}
         return None
 
-    # Task methods
-    def create_task(self, name: str, topics: List[str]) -> int:
+    def create_task(self, name: str, description: str, topics: List[str]) -> int:
         with self.conn:
             cursor = self.conn.execute(
-                "INSERT INTO Task (name) VALUES (?)",
-                (name,)
+                "INSERT INTO Task (name, description) VALUES (?, ?)",
+                (name, description)
             )
             task_id = cursor.lastrowid
             
@@ -113,15 +113,17 @@ class SQLitePersonaDB:
         logger.info(f"Task created: {task_id}")
         return task_id
 
+
     def get_all_tasks(self) -> List[Dict]:
         cursor = self.conn.cursor()
-        cursor.execute("SELECT id, name FROM Task")
+        cursor.execute("SELECT id, name, description FROM Task")
         tasks = cursor.fetchall()
         
         result = []
         for task in tasks:
             task_id = task[0]
             task_name = task[1]
+            task_description = task[2]
             
             # Get topics for this task
             cursor.execute("""
@@ -134,6 +136,7 @@ class SQLitePersonaDB:
             result.append({
                 "id": task_id,
                 "name": task_name,
+                "description": task_description,
                 "topics": topics
             })
         

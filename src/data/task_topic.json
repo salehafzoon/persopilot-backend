@@ -1,5 +1,18 @@
-{
-  "Content Consumption": ["Book", "Movie", "Music", "Game"],
-  "Lifestyle Optimization": ["Exercise", "Mental Health"],
-  "Career Development": ["Career", "Skill", "Education"]
-}
+[
+  {
+    "title": "Content Consumption",
+    "description": "Get personalized recommendations for articles, videos and learning resources tailored to your interest. on users' interests.",
+    "topics": ["Book", "Movie", "Music", "Game"]
+  },
+  {
+    "title": "Lifestyle Optimization",
+    "description": "Receive guidance on health, fitness, productivity, and daily routines to enhance you well-being.",
+    "topics": ["Exercise", "Mental Health"]
+  },
+  {
+    "title": "Career Development",
+    "description": "Access career advice, skill development plans, and professional growth strategies.",
+    "topics": ["Career", "Skill", "Education"]
+  }
+]
+

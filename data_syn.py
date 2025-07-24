@@ -23,12 +23,16 @@ for user in users:
 ################################# TASK TOPIC INSERTION ####################################
 
 with open("src/data/task_topic.json", "r") as f:
-    tasks_topics = json.load(f)
+    tasks_data = json.load(f)
 
 # Insert tasks and their topics
 task_ids = {}
-for task_name, topics in tasks_topics.items():
-    task_id = db.create_task(name=task_name, topics=topics)
+for task in tasks_data:
+    task_name = task["title"]
+    task_description = task["description"]
+    topics = task["topics"]
+    
+    task_id = db.create_task(name=task_name, description=task_description, topics=topics)
     task_ids[task_name] = task_id
     print(f"Inserted Task: {task_name} with id {task_id}")
     for topic in topics:
@@ -57,33 +61,18 @@ for task in classification_tasks:
     print(f"Inserted Classification Task: {task['name']} with id {task_id}")
 
 ################################ PERSONA FACT INSERTION ####################################
-
+# Load persona facts
 with open("src/data/persona_facts.json", "r") as f:
     persona_facts = json.load(f)
-
-# Get all usernames (excluding analyst)
-# Get all usernames except analysts
-usernames = [row[0] for row in db.conn.execute("SELECT username FROM User WHERE role != 'analyst' ORDER BY username ASC").fetchall()]
-
-# Load tasks and create them if needed
-with open("src/data/task_topic.json", "r") as f:
-    tasks_topics = json.load(f)
-
-# Insert tasks and their topics
-task_ids = {}
-for task_name, topics in tasks_topics.items():
-    task_id = db.create_task(name=task_name, topics=topics)
-    task_ids[task_name] = task_id
-    print(f"Inserted Task: {task_name} with id {task_id}")
-    for topic in topics:
-        print(f"  - Topic: {topic}")
 
 # Insert persona facts
 for user_fact in persona_facts:
     username = user_fact.get("username")
     if username:
         for fact in user_fact["facts"]:
-            task_id = task_ids[fact["task_name"]]
+            task_name = fact["task_name"]
+            task_id = task_ids[task_name]  # Get task_id from the dictionary
+            
             db.insert_persona_fact(
                 username=username,
                 task_id=task_id,
