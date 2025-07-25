@@ -142,6 +142,14 @@ class SQLitePersonaDB:
         
         return result
 
+    def get_task(self, task_id: int) -> Optional[Dict]:
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id, name, description FROM Task WHERE id = ?", (task_id,))
+        row = cursor.fetchone()
+        if row:
+            return {"id": row[0], "name": row[1], "description": row[2]}
+        return None
+
 
     def get_all_persona_facts(self, username: str) -> List[Dict]:
         cursor = self.conn.cursor()

@@ -2,7 +2,6 @@ from src.tools.community_recommender import create_community_recommender_tool
 from src.tools.persona_extractor import get_persona_extractor_tool
 from langchain.agents import initialize_agent, AgentType
 from langchain.memory import ConversationBufferMemory
-from src.tools.searcher import duckduckgo_search_tool 
 from langchain.schema import SystemMessage
 from langchain.chat_models import ChatOpenAI
 from src.llm.prompts import PersoAgent_Prompt
@@ -42,17 +41,19 @@ class PersoAgent:
         )
         
         # # Inject metadata as system message
-        # metadata_message = SystemMessage(
-        #     content=
-        #     f"""User Profile:
-        #     - Username: {self.user['username']}
-        #     - Current Task: {task}
+        metadata_message = SystemMessage(
+            content=
+            f"""User Profile:
+            - Username: {self.user['username']}
+            - Full Name: {self.user['full_name']}
+            
+            - Current Task: {task}
 
-        #     Known Persona Facts related to the current task:
-        #     {self.prev_personas.strip()}
-        #     """
-        # )
-        # self.memory.chat_memory.messages.insert(0, metadata_message)
+            Known Persona Facts related to the current task:
+            {self.prev_personas.strip()}
+            """
+        )
+        self.memory.chat_memory.messages.insert(0, metadata_message)
 
         # Agent
         self.agent = initialize_agent(
