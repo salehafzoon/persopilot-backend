@@ -5,7 +5,7 @@ from langchain.memory import ConversationBufferMemory
 from src.tools.searcher import duckduckgo_search_tool 
 from langchain.schema import SystemMessage
 from langchain.chat_models import ChatOpenAI
-from src.llm.prompts import AgentPrompt_OpenAI
+from src.llm.prompts import PersoAgent_Prompt
 import logging
 import os
 
@@ -13,10 +13,10 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
     
 
-class PersoAgentOpenAI:
-    def __init__(self, user_id: str, prev_personas: str, task: str = "Content Consumption"):
+class PersoAgent:
+    def __init__(self, user: dict, prev_personas: str, task: str = "Content Consumption"):
         
-        self.user_id = user_id
+        self.user = user
         self.task = task
         self.prev_personas = prev_personas
        
@@ -27,13 +27,13 @@ class PersoAgentOpenAI:
             openai_api_key=os.environ["OPENAI_API_KEY"]  # or pass it securely another way
         )
 
+        logger.info(f"Initializing PersoAgent for user: {self.user} with task: {task}")
         
         # Tools
-        persona_extractor_tool = get_persona_extractor_tool(user_id, task)
-        community_recommender = create_community_recommender_tool(user_id, task)
-        search_tool = duckduckgo_search_tool
+        persona_extractor_tool = get_persona_extractor_tool(self.user['username'], task)
+        community_recommender = create_community_recommender_tool(self.user['username'], task)
         
-        self.tools = [persona_extractor_tool, community_recommender, search_tool]
+        self.tools = [persona_extractor_tool, community_recommender]
 
         # Memory
         self.memory = ConversationBufferMemory(
@@ -41,18 +41,18 @@ class PersoAgentOpenAI:
             return_messages=True
         )
         
-        # Inject metadata as system message
-        metadata_message = SystemMessage(
-            content=
-            f"""User Profile:
-            - User ID: {user_id}
-            - Current Task: {task}
+        # # Inject metadata as system message
+        # metadata_message = SystemMessage(
+        #     content=
+        #     f"""User Profile:
+        #     - Username: {self.user['username']}
+        #     - Current Task: {task}
 
-            Known Persona Facts related to the current task:
-            {self.prev_personas.strip()}
-            """
-        )
-        self.memory.chat_memory.messages.insert(0, metadata_message)
+        #     Known Persona Facts related to the current task:
+        #     {self.prev_personas.strip()}
+        #     """
+        # )
+        # self.memory.chat_memory.messages.insert(0, metadata_message)
 
         # Agent
         self.agent = initialize_agent(
@@ -63,8 +63,7 @@ class PersoAgentOpenAI:
             memory=self.memory,
             handle_parsing_errors=True,       
             agent_kwargs={
-                "system_message": AgentPrompt_OpenAI(user_id, task)
-                
+                "system_message": PersoAgent_Prompt(self.user ,task)
             }
         )
 

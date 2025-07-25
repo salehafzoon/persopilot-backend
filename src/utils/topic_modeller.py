@@ -9,7 +9,7 @@ class TopicModeller:
             task_topic_data = json.load(f)
 
         # Define default topic list if not provided
-        self.topics = [topic for topics in task_topic_data.values() for topic in topics]
+        self.topics = [topic for task in task_topic_data for topic in task["topics"]]
         
         # Load zero-shot classifier pipeline with BART
         self.classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")

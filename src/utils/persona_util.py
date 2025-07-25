@@ -176,17 +176,47 @@ class SQLitePersonaDB:
             """, (username, task_id, topic, relation, obj))
         logger.info(f"Persona fact inserted for user {username}, task {task_id}")
 
-    def get_community_suggestions(self, task_id: int, limit: int = 10) -> Dict[str, List[Dict]]:
-        query = """
-        SELECT topic, object, relation, COUNT(DISTINCT username) as user_count
-        FROM Persona
-        WHERE task_id = ?
-        GROUP BY topic, object, relation
-        ORDER BY topic, user_count DESC
-        LIMIT ?
-        """
+    def insert_persona_fact_by_name(self, username: str, task: str, topic: str, relation: str, obj: str):
+        # Get task_id from task name
         cursor = self.conn.cursor()
-        cursor.execute(query, (task_id, limit))
+        cursor.execute("SELECT id FROM Task WHERE name = ?", (task,))
+        task_row = cursor.fetchone()
+        if not task_row:
+            raise ValueError(f"Task '{task}' not found")
+        
+        task_id = task_row[0]
+        
+        with self.conn:
+            self.conn.execute("""
+                INSERT INTO Persona (username, task_id, topic, relation, object)
+                VALUES (?, ?, ?, ?, ?)
+            """, (username, task_id, topic, relation, obj))
+        logger.info(f"Persona fact inserted for user {username}, task {task}")
+
+
+    def get_community_suggestions(self, username: str, task_name: str, limit: int = 3) -> Dict[str, List[Dict]]:
+        # Get task_id from task_name
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id FROM Task WHERE name = ?", (task_name,))
+        task_row = cursor.fetchone()
+        if not task_row:
+            return {}
+        
+        task_id = task_row[0]
+        
+        query = """
+        SELECT topic, object, relation, user_count
+        FROM (
+            SELECT topic, object, relation, COUNT(DISTINCT username) as user_count,
+                ROW_NUMBER() OVER (PARTITION BY topic ORDER BY COUNT(DISTINCT username) DESC) as rn
+            FROM Persona
+            WHERE task_id = ? AND username != ?
+            GROUP BY topic, object, relation
+        ) ranked
+        WHERE rn <= ?
+        ORDER BY topic, user_count DESC
+        """
+        cursor.execute(query, (task_id, username, limit))
         records = cursor.fetchall()
 
         suggestions = {}
@@ -198,19 +228,22 @@ class SQLitePersonaDB:
                 "user_count": count,
                 "relations": [relation]
             })
+        
         return suggestions
 
-    def format_community_suggestions(self, task_id: int, limit: int = 10) -> str:
-        suggestions = self.get_community_suggestions(task_id, limit)
-        if not suggestions:
-            return f"No suggestions found for task id: {task_id}"
 
-        output = [f"Suggestions for all related topics under task id {task_id}:"]
+    def format_community_suggestions(self, username: str, task_name: str, limit: int = 3) -> str:
+        suggestions = self.get_community_suggestions(username, task_name, limit)
+        if not suggestions:
+            return f"No community suggestions found for task: {task_name}"
+
+        output = [f"Community suggestions for {task_name} (from other users):"]
         for topic, objects in suggestions.items():
             output.append(f"- {topic}:")
             for obj in objects:
                 output.append(f"  . {obj['object']}: liked by {obj['user_count']} users")
         return "\n".join(output)
+
 
     def get_user_persona_graph_by_task(self, username: str, task_id: int) -> dict:
         cursor = self.conn.cursor()
@@ -268,6 +301,55 @@ class SQLitePersonaDB:
             "nodes": list(nodes.values()),
             "edges": edges
         }
+
+
+    def get_user_persona_summary_by_task(self, username: str, task_name: str) -> str:
+        cursor = self.conn.cursor()
+        
+        # Get task id from name
+        cursor.execute("SELECT id FROM Task WHERE name = ?", (task_name,))
+        task_row = cursor.fetchone()
+        if not task_row:
+            return f"No task found with name {task_name}"
+        
+        task_id = task_row[0]
+        
+        # Get persona facts grouped by topic
+        cursor.execute("""
+            SELECT topic, relation, object
+            FROM Persona
+            WHERE username = ? AND task_id = ?
+            ORDER BY topic, relation
+        """, (username, task_id))
+        
+        records = cursor.fetchall()
+        if not records:
+            return f"No persona data found for user {username} in task {task_name}"
+        
+        # Group facts by topic
+        topics = {}
+        for topic, relation, obj in records:
+            if topic not in topics:
+                topics[topic] = {}
+            if relation not in topics[topic]:
+                topics[topic][relation] = []
+            topics[topic][relation].append(obj)
+        
+        # Build summary
+        summary_parts = [f"User {username} preferences for {task_name}:"]
+        
+        for topic, relations in topics.items():
+            topic_facts = []
+            for relation, objects in relations.items():
+                if len(objects) == 1:
+                    topic_facts.append(f"{relation} {objects[0]}")
+                else:
+                    topic_facts.append(f"{relation} {', '.join(objects)}")
+            
+            summary_parts.append(f"{topic}: {'; '.join(topic_facts)}")
+        
+        return " | ".join(summary_parts)
+
 
 
 

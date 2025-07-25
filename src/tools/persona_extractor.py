@@ -11,7 +11,7 @@ from transformers import BertTokenizerFast, BertModel
 from langchain.tools import StructuredTool
 
 from src.utils.topic_modeller import TopicModeller
-from src.utils.persona_util import Neo4jPersonaDB, SQLitePersonaDB
+from src.utils.persona_util import SQLitePersonaDB
 
 warnings.filterwarnings("ignore")
 
@@ -68,9 +68,9 @@ class JointBertExtractor(nn.Module):
 # ------------------------
 
 class PersonaExtractor:
-    def __init__(self, user_id: str, task: str):
+    def __init__(self, username: str, task: str):
         
-        self.user_id = user_id
+        self.username = username
         self.task = task
         
         model_path = "src/llm/PExtractor"
@@ -94,7 +94,7 @@ class PersonaExtractor:
 
         # Utils
         self.topic_modeller = TopicModeller()
-        # self.persona_db = Neo4jPersonaDB()
+        
         self.persona_db = SQLitePersonaDB()
 
     def extract(self, sentence: str) -> str:
@@ -135,10 +135,10 @@ class PersonaExtractor:
         logger.info(f"[EXTRACTED] relation='{relation}', object='{object_str}', topic='{topic}', task='{self.task}'")
 
         # Store in Neo4j
-        self.persona_db.insert_persona_fact(user_id=self.user_id, relation=relation, obj=object_str, topic=topic, task=self.task)
-        logger.info(f"[SAVED TO DB] for user_id='{self.user_id}'")
+        self.persona_db.insert_persona_fact_by_name(username=self.username, relation=relation, obj=object_str, topic=topic, task=self.task)
+        logger.info(f"[SAVED TO DB] for username='{self.username}'")
         
-        return f"The persona has extracted. Just inform the user."
+        return f"[EXTRACTED] relation='{relation}', object='{object_str}', topic='{topic}', task='{self.task}'"
 
 
 # ------------------------
@@ -147,8 +147,8 @@ class PersonaExtractor:
 
 from langchain.tools import Tool
 
-def get_persona_extractor_tool(user_id: str, task: str) -> Tool:
-    extractor_instance = PersonaExtractor(user_id=user_id, task=task)
+def get_persona_extractor_tool(username: str, task: str) -> Tool:
+    extractor_instance = PersonaExtractor(username=username, task=task)
     # logger.info(f"[TOOL CREATION] PersonaExtractor instance created successfully")
 
     

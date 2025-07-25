@@ -5,7 +5,7 @@ from typing import List
 from pydantic import BaseModel, Field
 from langchain.tools import Tool
 
-from src.utils.persona_util import Neo4jPersonaDB, SQLitePersonaDB
+from src.utils.persona_util import SQLitePersonaDB
 
 # Logger
 logger = logging.getLogger(__name__)
@@ -16,8 +16,7 @@ class RecommendationInput(BaseModel):
     sentence: str = Field(..., description="A sentence requesting community-based recommendations.")
 
 # Tool Wrapper
-def create_community_recommender_tool(user_id: str, task: str) -> Tool:
-    # persona_db = Neo4jPersonaDB()
+def create_community_recommender_tool(username: str, task: str) -> Tool:
     persona_db = SQLitePersonaDB()
 
     def recommend(sentence: str) -> str:
@@ -25,7 +24,7 @@ def create_community_recommender_tool(user_id: str, task: str) -> Tool:
             logger.info(f"[TOOL INVOKED] Community recommender triggered with input: {sentence}")
 
             # Get community suggestions for the task
-            formatted_suggestions = persona_db.format_community_suggestions(user_id, task)
+            formatted_suggestions = persona_db.format_community_suggestions(username, task)
             
             if "No suggestions found" in formatted_suggestions:
                 return f"[TOOL RESULT]\nType: Recommendation: No community recommendations available for task '{task}'."
