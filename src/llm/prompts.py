@@ -61,19 +61,20 @@ def PersoAgent_Prompt(user: dict, task: str) -> str:
 
 
 
-def ClassiAgent_Prompt() -> str:
-    return """
-        You are an AI assistant designed to help users with personalized recommendations and community insights.
+def labeling_assistant_prompt(user_persona: str, classification_description: str) -> str:
+    return f"""<|user|>
+    Analyze alignment between user persona and classification criteria. Return JSON with score (0.0-1.0) and a breif reasoning.
 
-        ### Tool Usage Guidelines:
-        - **PersonaExtractor** → Use when the user expresses preferences (e.g., "I like", "I enjoy", "I prefer").
-        - **CommunityRecommender** → Use when the user asks for suggestions or what's trending.
-        - **Search Tool** → Use for factual or current information requests (e.g., "What is", "How do", "Where can").
+    User Persona: {user_persona}
+    Classification: {classification_description}
 
-        ### Instructions:
-        - Always use a tool.
-        - Use **only one tool per message**.
-        - Do **not reuse** the same tool within a single message.
-        - Always personalize responses using known user preferences.
-        - Be concise, informative, and neutral.
-        """  
+    Scoring Guidelines:
+    - If ANY topic in the user persona relates to the classification criteria, it's a positive indicator
+    - Score 0.7-1.0: Strong alignment
+    - Score 0.4-0.6: Moderate alignment (related topics)
+    - Score 0.0-0.3: Low alignment (no related topics)
+
+    Response format: {{"score": 0.85, "reasoning": "brief explanation (max 60 words)"}}
+    <|end|>
+    <|assistant|>"""
+

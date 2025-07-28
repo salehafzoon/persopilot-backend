@@ -1,19 +1,21 @@
 # from app.agent_factory import get_agent, PersoAgent
-from fastapi import FastAPI, Query, Depends, HTTPException
+from fastapi import FastAPI, Query, Depends, HTTPException, Body
+from src.tools.labeling_assistant import LabelingAssistant
 from fastapi.middleware.cors import CORSMiddleware
 from src.utils.persona_util import SQLitePersonaDB
-from pydantic import BaseModel
-from typing import Optional
-import logging
-import json
-from typing import List
-import uuid
-import gc
-import torch
-import threading
-import time
-from datetime import datetime, timedelta
 from src.agents.PersoAgent import PersoAgent
+from datetime import datetime, timedelta
+from typing import Optional, List
+from pydantic import BaseModel
+import threading
+import logging
+import torch
+import json
+import uuid
+import time
+import os
+import gc
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -45,21 +47,93 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Global variables
 persona_db = SQLitePersonaDB()
+sessions = {}
+session_lock = threading.Lock()
+labeling_assistant = None
 
 
 # -------- Health check --------
 @app.get("/health", tags=["Utility"])
 def health() -> dict:
-    return {"status": "ok"}
+    return {
+        "status": "ok",
+    "CUDA_VISIBLE_DEVICES": os.getenv("CUDA_VISIBLE_DEVICES"),
+        "torch_version": torch.__version__,
+        "torch_cuda": torch.version.cuda,
+        "cuda_available": torch.cuda.is_available(),
+        "device_count": torch.cuda.device_count()
+    }
 
 
 # ----------- APIs -----------
+class PersonaFact(BaseModel):
+    task_name: str
+    topic: str
+    relation: str
+    object: str
 
 
-# Global session storage
-sessions = {}
-session_lock = threading.Lock()
+@app.post("/users", tags=["User"])
+def create_or_update_user(user_data: dict = Body(...)):
+    """Create or update a user by full_name."""
+    try:
+        full_name = user_data["full_name"]
+        age = user_data.get("age")
+        gender = user_data.get("gender")
+        role = user_data.get("role", "user")
+        
+        username, outcome = persona_db.create_or_update_user_by_full_name(full_name, age, gender, role)
+        
+        if outcome == "unsuccessful":
+            raise HTTPException(status_code=500, detail="Failed to create or update user")
+        
+        return {
+            "message": f"User '{full_name}' {outcome} successfully",
+            "username": username,
+            "full_name": full_name,
+            "age": age,
+            "gender": gender,
+            "role": role,
+            "outcome": outcome
+        }
+        
+    except KeyError as e:
+        raise HTTPException(status_code=400, detail=f"Missing required field: {e}")
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/persona_facts/bulk", tags=["Persona"])
+def bulk_insert_persona_facts(username: str = Query(...), persona_facts: List[PersonaFact] = Body(...)):
+    """Bulk insert persona facts for a given username."""
+    try:
+        # Verify user exists
+        user = persona_db.get_user(username)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Convert Pydantic models to dicts
+        facts_data = [fact.dict() for fact in persona_facts]
+        
+        # Bulk insert persona facts
+        inserted_count = persona_db.bulk_insert_persona_facts(username, facts_data)
+        
+        return {
+            "message": f"Successfully inserted {inserted_count} out of {len(persona_facts)} persona facts for user {username}",
+            "username": username,
+            "total_provided": len(persona_facts),
+            "successfully_inserted": inserted_count
+        }
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.post("/chat/init", tags=["Chat"])
 def init_chat_session(username: str = Query(...), task_id: str = Query(...)):
@@ -106,7 +180,6 @@ def init_chat_session(username: str = Query(...), task_id: str = Query(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-import json
 
 @app.post("/chat/message", tags=["Chat"])
 def send_message(session_id: str = Query(...), message: str = Query(...)):
@@ -138,6 +211,7 @@ def send_message(session_id: str = Query(...), message: str = Query(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.delete("/chat/session/{session_id}", tags=["Chat"])
 def end_session(session_id: str):
     try:
@@ -153,7 +227,7 @@ def end_session(session_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Background cleanup task
+
 def cleanup_expired_sessions():
     while True:
         current_time = datetime.now()
@@ -175,10 +249,9 @@ def cleanup_expired_sessions():
                 torch.cuda.empty_cache()
         time.sleep(10)
 
-# Start cleanup thread
-cleanup_thread = threading.Thread(target=cleanup_expired_sessions, daemon=True)
-cleanup_thread.start()
-
+    # Start cleanup thread
+    cleanup_thread = threading.Thread(target=cleanup_expired_sessions, daemon=True)
+    cleanup_thread.start()
 
 
 @app.get("/tasks", tags=["Utility"])
@@ -298,6 +371,7 @@ def login(username: str = Query(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.get("/chat_init", tags=["Chat"])
 def chat_init(username: str = Query(...), task_id: int = Query(...)):
     try:
@@ -327,19 +401,155 @@ def chat_init(username: str = Query(...), task_id: int = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# -------- Main chat endpoint --------
-# @app.post("/chat", response_model=ChatResponse, tags=["Chat"])
-# def chat(
-#     payload: ChatRequest,
-#     agent: PersoAgent = Depends(get_agent)
-# ) -> ChatResponse:
-#     try:
-#         output = agent.handle_task(
-#             task=payload.user_input,
-#             user_id=payload.user_id,
-#             conv_id=payload.conversation_id
-#         )
-#         return ChatResponse(reply=output)
-#     except Exception as e:
-#         # Surface a clean 500 instead of FastAPI's default HTML trace
-#         raise HTTPException(status_code=500, detail=str(e))
+def get_labeling_assistant():
+    global labeling_assistant
+    # if labeling_assistant is None:
+    #     # Check CUDA availability before initializing
+    #     if not torch.cuda.is_available():
+    #         raise HTTPException(
+    #             status_code=503, 
+    #             detail="CUDA not available. GPU-based labeling assistant requires CUDA-enabled PyTorch."
+    #         )
+    labeling_assistant = LabelingAssistant()
+    return labeling_assistant
+
+
+@app.post("/classification/label_users", tags=["Classification"])
+def label_users(
+    pool_size: int = Query(..., description="Number of users to evaluate"),
+    clf_task_name: str = Query(..., description="Classification task name")
+):
+    try:
+        assistant = get_labeling_assistant()
+        results = assistant.get_alignment_score(pool_size, clf_task_name)
+        
+        if results is None:
+            raise HTTPException(status_code=404, detail="No candidates found or classification task not found")
+        
+        return {
+            "classification_task": clf_task_name,
+            "total_evaluated": len(results),
+            "results": results
+        }
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/classification/cleanup", tags=["Classification"])
+def cleanup_labeling_assistant():
+    try:
+        global labeling_assistant
+        if labeling_assistant:
+            labeling_assistant.reset_memory()
+            labeling_assistant = None
+            gc.collect()
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+        
+        return {"message": "Labeling assistant cleaned up successfully"}
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/persona_facts", tags=["Persona"])
+def delete_user_persona_facts(username: str = Query(...)):
+    """Delete all persona facts for a given username."""
+    try:
+        # Verify user exists
+        user = persona_db.get_user(username)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Delete all persona facts
+        deleted_count = persona_db.delete_all_persona_facts(username)
+        
+        return {
+            "message": f"Successfully deleted {deleted_count} persona facts for user {username}",
+            "username": username,
+            "deleted_count": deleted_count
+        }
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/classification_tasks/offers", tags=["ClassificationTask"])
+def delete_classification_task_offers(task_id: str = Query(...)):
+    """Delete all offers for a given classification task ID."""
+    try:
+        # Delete all offers and get task name
+        deleted_count, task_name = persona_db.delete_classification_task_offers(task_id)
+        
+        if task_name is None:
+            raise HTTPException(status_code=404, detail="Classification task not found")
+        
+        return {
+            "message": f"Successfully deleted {deleted_count} offers for classification task '{task_name}'",
+            "task_id": task_id,
+            "task_name": task_name,
+            "deleted_count": deleted_count
+        }
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/classification_tasks", tags=["ClassificationTask"])
+def delete_classification_task(task_id: str = Query(...)):
+    """Delete a classification task and all related records."""
+    try:
+        success, task_name, offers_deleted = persona_db.delete_classification_task(task_id)
+        
+        if not success:
+            raise HTTPException(status_code=404, detail="Classification task not found")
+        
+        return {
+            "message": f"Successfully deleted classification task '{task_name}' and {offers_deleted} related offers",
+            "task_id": task_id,
+            "task_name": task_name,
+            "offers_deleted": offers_deleted
+        }
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/database/reseed", tags=["Database"])
+def reseed_database():
+    """Reseed the database using data_syn.py script."""
+    try:
+        import subprocess
+        import sys
+        
+        # Execute the data_syn.py script
+        result = subprocess.run(
+            [sys.executable, "data_syn.py"],
+            capture_output=True,
+            text=True,
+            cwd="."
+        )
+        
+        if result.returncode == 0:
+            return {
+                "message": "Database reseeded successfully",
+                "outcome": "successful",
+                "output": result.stdout
+            }
+        else:
+            raise HTTPException(
+                status_code=500, 
+                detail=f"Database reseed failed: {result.stderr}"
+            )
+            
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to reseed database: {str(e)}")

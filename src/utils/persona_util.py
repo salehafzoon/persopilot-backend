@@ -87,6 +87,47 @@ class SQLitePersonaDB:
         logger.info(f"User created: {username}")
         return username
 
+
+    def get_user_by_full_name(self, full_name: str) -> Optional[Dict]:
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT username, full_name, age, gender, role FROM User WHERE full_name = ?", (full_name,))
+        row = cursor.fetchone()
+        if row:
+            return {"username": row[0], "full_name": row[1], "age": row[2], "gender": row[3], "role": row[4]}
+        return None
+
+
+    def create_or_update_user_by_full_name(self, full_name: str, age: Optional[int], gender: Optional[str], role: str = "user") -> tuple[str, str]:
+        try:
+            # Check if user exists by full_name
+            existing_user = self.get_user_by_full_name(full_name)
+            
+            if existing_user:
+                # Update existing user
+                username = existing_user["username"]
+                with self.conn:
+                    self.conn.execute(
+                        "UPDATE User SET age = ?, gender = ?, role = ? WHERE username = ?",
+                        (age, gender, role, username)
+                    )
+                logger.info(f"User updated: {username}")
+                return username, "updated"
+            else:
+                # Create new user with full_name as username (or generate unique username)
+                username = full_name.lower().replace(" ", "_")
+                with self.conn:
+                    self.conn.execute(
+                        "INSERT INTO User (username, full_name, age, gender, role) VALUES (?, ?, ?, ?, ?)",
+                        (username, full_name, age, gender, role)
+                    )
+                logger.info(f"User created: {username}")
+                return username, "created"
+        except Exception as e:
+            logger.error(f"Failed to create/update user {full_name}: {e}")
+            return None, "unsuccessful"
+
+
+
     def get_user(self, username: str) -> Optional[Dict]:
         cursor = self.conn.cursor()
         cursor.execute("SELECT username, full_name, age, gender, role FROM User WHERE username = ?", (username,))
@@ -94,6 +135,36 @@ class SQLitePersonaDB:
         if row:
             return {"username": row[0], "full_name": row[1], "age": row[2], "gender": row[3], "role": row[4]}
         return None
+
+
+    def get_random_candidate_usernames(self, classification_task_name: str, count: int = None) -> List[str]:
+        cursor = self.conn.cursor()
+        query = """
+            SELECT u.username 
+            FROM User u
+            WHERE u.role = 'user' 
+            AND u.username NOT IN (
+                SELECT ctu.username 
+                FROM ClassificationTaskUser ctu
+                JOIN ClassificationTask ct ON ctu.classification_task_id = ct.id
+                WHERE ct.name = ?
+            )
+        """
+        
+        if count is None:
+            cursor.execute(query, (classification_task_name,))
+        else:
+            query += " ORDER BY RANDOM() LIMIT ?"
+            cursor.execute(query, (classification_task_name, count))
+        
+        results = [row[0] for row in cursor.fetchall()]
+        if results:
+            logger.info(f"Found {len(results)} candidate users for classification task '{classification_task_name}'")
+            return results
+        else:
+            logger.info(f"No candidate users found for classification task '{classification_task_name}'")
+            return None
+
 
     def create_task(self, name: str, description: str, topics: List[str]) -> int:
         with self.conn:
@@ -142,6 +213,7 @@ class SQLitePersonaDB:
         
         return result
 
+
     def get_task(self, task_id: int) -> Optional[Dict]:
         cursor = self.conn.cursor()
         cursor.execute("SELECT id, name, description FROM Task WHERE id = ?", (task_id,))
@@ -175,7 +247,6 @@ class SQLitePersonaDB:
         return facts
 
 
-    # Persona methods
     def insert_persona_fact(self, username: str, task_id: int, topic: str, relation: str, obj: str):
         with self.conn:
             self.conn.execute("""
@@ -183,6 +254,7 @@ class SQLitePersonaDB:
                 VALUES (?, ?, ?, ?, ?)
             """, (username, task_id, topic, relation, obj))
         logger.info(f"Persona fact inserted for user {username}, task {task_id}")
+
 
     def insert_persona_fact_by_name(self, username: str, task: str, topic: str, relation: str, obj: str):
         # Get task_id from task name
@@ -200,6 +272,38 @@ class SQLitePersonaDB:
                 VALUES (?, ?, ?, ?, ?)
             """, (username, task_id, topic, relation, obj))
         logger.info(f"Persona fact inserted for user {username}, task {task}")
+
+
+    def bulk_insert_persona_facts(self, username: str, persona_facts: List[Dict]) -> int:
+        cursor = self.conn.cursor()
+        inserted_count = 0
+        
+        for fact in persona_facts:
+            try:
+                # Get task_id from task name
+                cursor.execute("SELECT id FROM Task WHERE name = ?", (fact["task_name"],))
+                task_row = cursor.fetchone()
+                if not task_row:
+                    logger.warning(f"Task '{fact['task_name']}' not found, skipping persona fact")
+                    continue
+                
+                task_id = task_row[0]
+                
+                # Insert persona fact
+                with self.conn:
+                    self.conn.execute("""
+                        INSERT INTO Persona (username, task_id, topic, relation, object)
+                        VALUES (?, ?, ?, ?, ?)
+                    """, (username, task_id, fact["topic"], fact["relation"], fact["object"]))
+                
+                inserted_count += 1
+                
+            except Exception as e:
+                logger.error(f"Failed to insert persona fact: {e}")
+                continue
+        
+        logger.info(f"Bulk inserted {inserted_count} persona facts for user {username}")
+        return inserted_count
 
 
     def get_community_suggestions(self, username: str, task_name: str, limit: int = 3) -> Dict[str, List[Dict]]:
@@ -359,9 +463,51 @@ class SQLitePersonaDB:
         return " | ".join(summary_parts)
 
 
+    def get_user_persona_summary(self, username: str) -> str:
+        cursor = self.conn.cursor()
+        
+        # Get persona facts grouped by task and topic
+        cursor.execute("""
+            SELECT t.name as task_name, p.topic, p.relation, p.object
+            FROM Persona p
+            JOIN Task t ON p.task_id = t.id
+            WHERE p.username = ?
+            ORDER BY t.name, p.topic, p.relation
+        """, (username,))
+        
+        records = cursor.fetchall()
+        if not records:
+            return f"No persona data found for user {username}"
+        
+        # Group facts by task and topic
+        tasks = {}
+        for task_name, topic, relation, obj in records:
+            if task_name not in tasks:
+                tasks[task_name] = {}
+            if topic not in tasks[task_name]:
+                tasks[task_name][topic] = {}
+            if relation not in tasks[task_name][topic]:
+                tasks[task_name][topic][relation] = []
+            tasks[task_name][topic][relation].append(obj)
+        
+        # Build summary
+        summary_parts = [f"User {username} preferences:"]
+        
+        for task_name, topics in tasks.items():
+            task_parts = []
+            for topic, relations in topics.items():
+                topic_facts = []
+                for relation, objects in relations.items():
+                    if len(objects) == 1:
+                        topic_facts.append(f"{relation} {objects[0]}")
+                    else:
+                        topic_facts.append(f"{relation} {', '.join(objects)}")
+                task_parts.append(f"{topic}: {'; '.join(topic_facts)}")
+            summary_parts.append(f"{task_name} - {' | '.join(task_parts)}")
+        
+        return " || ".join(summary_parts)
 
 
-    # ClassificationTask methods
     def create_classification_task(self, name: str, description: str, label1: str, label2: str, offer_message: str, username: str) -> int:
         with self.conn:
             cursor = self.conn.execute("""
@@ -371,6 +517,7 @@ class SQLitePersonaDB:
             classification_task_id = cursor.lastrowid
         logger.info(f"ClassificationTask created: {classification_task_id}")
         return classification_task_id
+
 
     def get_classification_task(self, classification_task_id: int) -> Optional[Dict]:
         cursor = self.conn.cursor()
@@ -388,7 +535,24 @@ class SQLitePersonaDB:
             }
         return None
 
-    # ClassificationTaskUser methods
+
+    def get_classification_task_by_name(self, name: str) -> Optional[Dict]:
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT id, name, description, label1, label2, offer_message, date, username
+            FROM ClassificationTask
+            WHERE name = ?
+        """, (name,))
+        row = cursor.fetchone()
+        if row:
+            return {
+                "id": row[0], "name": row[1], "description": row[2],
+                "label1": row[3], "label2": row[4], "offer_message": row[5],
+                "date": row[6], "username": row[7]
+            }
+        return None
+
+
     def connect_user_to_classification_task(self, classification_task_id: int, username: str, status: str = "waiting") -> int:
         with self.conn:
             cursor = self.conn.execute("""
@@ -399,12 +563,14 @@ class SQLitePersonaDB:
         logger.info(f"User {username} connected to ClassificationTask {classification_task_id} with status {status}")
         return connection_id
 
+
     def update_classification_task_user_status(self, connection_id: int, status: str):
         with self.conn:
             self.conn.execute("""
                 UPDATE ClassificationTaskUser SET status = ? WHERE id = ?
             """, (status, connection_id))
         logger.info(f"ClassificationTaskUser {connection_id} status updated to {status}")
+
 
     def get_classification_task_users(self, classification_task_id: int) -> List[Dict]:
         cursor = self.conn.cursor()
@@ -418,6 +584,80 @@ class SQLitePersonaDB:
             {"id": row[0], "username": row[1], "status": row[2]}
             for row in rows
         ]
+
+
+    def delete_all_persona_facts(self, username: str) -> int:
+
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM Persona WHERE username = ?", (username,))
+        count = cursor.fetchone()[0]
+        
+        if count == 0:
+            logger.info(f"No persona facts found for user {username}")
+            return 0
+        
+        with self.conn:
+            cursor = self.conn.execute("DELETE FROM Persona WHERE username = ?", (username,))
+            deleted_count = cursor.rowcount
+        
+        logger.info(f"Deleted {deleted_count} persona facts for user {username}")
+        return deleted_count
+
+
+    def delete_classification_task_offers(self, classification_task_id: int) -> tuple[int, str]:
+        cursor = self.conn.cursor()
+        
+        # Get task name first
+        cursor.execute("SELECT name FROM ClassificationTask WHERE id = ?", (classification_task_id,))
+        task_row = cursor.fetchone()
+        if not task_row:
+            logger.warning(f"Classification task {classification_task_id} not found")
+            return 0, None
+        
+        task_name = task_row[0]
+        
+        cursor.execute("SELECT COUNT(*) FROM ClassificationTaskUser WHERE classification_task_id = ?", (classification_task_id,))
+        count = cursor.fetchone()[0]
+        
+        if count == 0:
+            logger.info(f"No offers found for classification task '{task_name}' (ID: {classification_task_id})")
+            return 0, task_name
+        
+        with self.conn:
+            cursor = self.conn.execute("DELETE FROM ClassificationTaskUser WHERE classification_task_id = ?", (classification_task_id,))
+            deleted_count = cursor.rowcount
+        
+        logger.info(f"Deleted {deleted_count} offers for classification task '{task_name}' (ID: {classification_task_id})")
+        return deleted_count, task_name
+
+
+    def delete_classification_task(self, classification_task_id: int) -> tuple[bool, str, int]:
+        cursor = self.conn.cursor()
+        
+        # Get task name first
+        cursor.execute("SELECT name FROM ClassificationTask WHERE id = ?", (classification_task_id,))
+        task_row = cursor.fetchone()
+        if not task_row:
+            logger.warning(f"Classification task {classification_task_id} not found")
+            return False, None, 0
+        
+        task_name = task_row[0]
+        
+        # Count related records
+        cursor.execute("SELECT COUNT(*) FROM ClassificationTaskUser WHERE classification_task_id = ?", (classification_task_id,))
+        offers_count = cursor.fetchone()[0]
+        
+        with self.conn:
+            # Delete related records first (foreign key constraint)
+            cursor.execute("DELETE FROM ClassificationTaskUser WHERE classification_task_id = ?", (classification_task_id,))
+            
+            # Delete the classification task
+            cursor.execute("DELETE FROM ClassificationTask WHERE id = ?", (classification_task_id,))
+        
+        logger.info(f"Deleted classification task '{task_name}' (ID: {classification_task_id}) and {offers_count} related offers")
+        return True, task_name, offers_count
+
+
 
     def clear_database(self):
         logger.warning("Clearing all tables from SQLite!")
