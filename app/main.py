@@ -159,12 +159,15 @@ def init_chat_session(username: str = Query(...), task_id: str = Query(...)):
         with session_lock:
             sessions[session_id] = {
                 "agent": agent,
+                "username": username,
+                "task_id": int(task_id),
                 "created_at": datetime.now(),
                 "last_accessed": datetime.now()
             }
         
         return {
             "session_id": session_id,
+            "task_id": task['id'],
             "task_name": task['name'],
             "user": {
                 "username": user["username"],
@@ -174,7 +177,7 @@ def init_chat_session(username: str = Query(...), task_id: str = Query(...)):
                 "role": user["role"],
                 "persona_graph": persona_graph
             },
-            "expires_in": 40
+            "expires_in": 300
         }
         
     except Exception as e:
@@ -191,18 +194,52 @@ def send_message(session_id: str = Query(...), message: str = Query(...)):
             session = sessions[session_id]
             session["last_accessed"] = datetime.now()
             agent = session["agent"]
+            username = session["username"]
+            task_id = session["task_id"]
         
         response = agent.handle_task(message)
         
-        # Parse JSON string to object
+        # Handle duplicate JSON responses by taking the first valid one
+        is_persona_updated = False
+        parsed_response = response
+        
         try:
+            # Try to parse as JSON first
             parsed_response = json.loads(response)
         except json.JSONDecodeError:
-            parsed_response = response  # Keep as string if not valid JSON
+            # If that fails, try to extract the first JSON object from the string
+            try:
+                # Find the first complete JSON object
+                start = response.find('{')
+                if start != -1:
+                    brace_count = 0
+                    end = start
+                    for i, char in enumerate(response[start:], start):
+                        if char == '{':
+                            brace_count += 1
+                        elif char == '}':
+                            brace_count -= 1
+                            if brace_count == 0:
+                                end = i + 1
+                                break
+                    
+                    first_json = response[start:end]
+                    parsed_response = json.loads(first_json)
+            except:
+                parsed_response = response  # Keep as string if all parsing fails
+        
+        # Check if persona was updated
+        if isinstance(parsed_response, dict) and parsed_response.get("used_tool") == "PersonaExtractor":
+            is_persona_updated = True
+        
+        # Get updated persona graph
+        persona_graph = persona_db.get_user_persona_graph_by_task(username, task_id)
         
         return {
             "session_id": session_id,
             "response": parsed_response,
+            "is_persona_updated": is_persona_updated,
+            "persona_graph": persona_graph,
             "timestamp": datetime.now().isoformat()
         }
         
@@ -235,7 +272,7 @@ def cleanup_expired_sessions():
         
         with session_lock:
             for session_id, session_data in sessions.items():
-                if current_time - session_data["last_accessed"] > timedelta(minutes=1):            # Update this
+                if current_time - session_data["last_accessed"] > timedelta(minutes=5):            # Update this
                     expired_sessions.append(session_id)
             
             for session_id in expired_sessions:
