@@ -139,6 +139,17 @@ def bulk_insert_persona_facts(username: str = Query(...), persona_facts: List[Pe
 def init_chat_session(username: str = Query(...), task_id: str = Query(...)):
     
     try:
+        # Check for existing active session for this user
+        current_time = datetime.now()
+        with session_lock:
+            for session_id, session_data in sessions.items():
+                if (session_data.get("username") == username and 
+                    current_time - session_data["last_accessed"] <= timedelta(minutes=1)):
+                    raise HTTPException(
+                        status_code=409, 
+                        detail=f"User {username} already has an active session: {session_id}"
+                    )
+        
         task = persona_db.get_task(task_id)
         user = persona_db.get_user(username)
         
@@ -177,9 +188,11 @@ def init_chat_session(username: str = Query(...), task_id: str = Query(...)):
                 "role": user["role"],
                 "persona_graph": persona_graph
             },
-            "expires_in": 300
+            "expires_in": 40
         }
         
+    except HTTPException as e:
+        raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -590,3 +603,40 @@ def reseed_database():
             
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to reseed database: {str(e)}")
+
+
+@app.put("/classification_tasks", tags=["ClassificationTask"])
+def update_classification_task(task_data: dict = Body(...)):
+    """Update a classification task by ID."""
+    try:
+        task_id = task_data["id"]
+        
+        # Verify task exists
+        existing_task = persona_db.get_classification_task(task_id)
+        if not existing_task:
+            raise HTTPException(status_code=404, detail="Classification task not found")
+        
+        # Update task
+        success = persona_db.update_classification_task(
+            task_id=task_id,
+            name=task_data["name"],
+            description=task_data["description"],
+            label1=task_data["label1"],
+            label2=task_data["label2"],
+            offer_message=task_data["offer_message"]
+        )
+        
+        if not success:
+            raise HTTPException(status_code=500, detail="Failed to update classification task")
+        
+        return {
+            "message": f"Classification task {task_id} updated successfully",
+            **task_data
+        }
+        
+    except KeyError as e:
+        raise HTTPException(status_code=400, detail=f"Missing required field: {e}")
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

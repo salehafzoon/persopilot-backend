@@ -34,6 +34,34 @@ class LabelingAssistant:
         self.tokenizer.pad_token = self.tokenizer.eos_token
         self.db = SQLitePersonaDB()
 
+    def clean_reasoning(self, reasoning_text):
+        """Extract clean reasoning from dirty JSON response."""
+        try:
+            # Remove markdown code blocks
+            if "```json" in reasoning_text:
+                start = reasoning_text.find("```json") + 7
+                end = reasoning_text.find("```", start)
+                if end != -1:
+                    json_part = reasoning_text[start:end].strip()
+                else:
+                    json_part = reasoning_text[start:].strip()
+            else:
+                json_part = reasoning_text
+            
+            # Remove any trailing tokens like <|end|>
+            if "<|end|>" in json_part:
+                json_part = json_part.split("<|end|>")[0].strip()
+            
+            # Try to parse and extract reasoning
+            try:
+                parsed = json.loads(json_part)
+                return parsed.get("reasoning", reasoning_text)
+            except:
+                return reasoning_text
+                
+        except:
+            return reasoning_text
+
 
     def get_alignment_score(self, pool_size: int, clf_task_name: str) -> list:
     
@@ -99,7 +127,7 @@ class LabelingAssistant:
                     "age": user['age'],
                     "gender": user['gender'],
                     "score": min(1.0, score),
-                    "reasoning": response.strip()
+                    "reasoning": self.clean_reasoning(response.strip())
                 })
             
             return labeling_results

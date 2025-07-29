@@ -127,6 +127,22 @@ class SQLitePersonaDB:
             return None, "unsuccessful"
 
 
+    def update_classification_task(self, task_id: int, name: str, description: str, label1: str, label2: str, offer_message: str) -> bool:
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id FROM ClassificationTask WHERE id = ?", (task_id,))
+        if not cursor.fetchone():
+            return False
+        
+        with self.conn:
+            self.conn.execute("""
+                UPDATE ClassificationTask 
+                SET name = ?, description = ?, label1 = ?, label2 = ?, offer_message = ?
+                WHERE id = ?
+            """, (name, description, label1, label2, offer_message, task_id))
+        
+        logger.info(f"Classification task {task_id} updated")
+        return True
+
 
     def get_user(self, username: str) -> Optional[Dict]:
         cursor = self.conn.cursor()
