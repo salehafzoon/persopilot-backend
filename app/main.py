@@ -25,6 +25,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+SESSION_EXP = 1         #minutes
+
 # Add console handler
 handler = logging.StreamHandler()
 handler.setLevel(logging.INFO)
@@ -77,14 +79,19 @@ class PersonaFact(BaseModel):
 
 @app.post("/users", tags=["User"])
 def create_or_update_user(user_data: dict = Body(...)):
-    """Create or update a user by full_name."""
+    """Create or update a user."""
     try:
         full_name = user_data["full_name"]
         age = user_data.get("age")
         gender = user_data.get("gender")
         role = user_data.get("role", "user")
+        username = user_data.get("username")
         
-        username, outcome = persona_db.create_or_update_user_by_full_name(full_name, age, gender, role)
+        if not username:
+            # Generate username from full_name for creation
+            username = full_name.lower().replace(" ", "_")
+        
+        username, outcome = persona_db.create_or_update_user(username, full_name, age, gender, role)
         
         if outcome == "unsuccessful":
             raise HTTPException(status_code=500, detail="Failed to create or update user")
@@ -139,16 +146,21 @@ def bulk_insert_persona_facts(username: str = Query(...), persona_facts: List[Pe
 def init_chat_session(username: str = Query(...), task_id: str = Query(...)):
     
     try:
-        # Check for existing active session for this user
         current_time = datetime.now()
         with session_lock:
+            # Check if ANY user has an active session (server busy)
             for session_id, session_data in sessions.items():
-                if (session_data.get("username") == username and 
-                    current_time - session_data["last_accessed"] <= timedelta(minutes=1)):
-                    raise HTTPException(
-                        status_code=409, 
-                        detail=f"User {username} already has an active session: {session_id}"
-                    )
+                if current_time - session_data["last_accessed"] <= timedelta(minutes=1):
+                    if session_data.get("username") == username:
+                        raise HTTPException(
+                            status_code=409, 
+                            detail=f"User {username} already has an active session"
+                        )
+                    else:
+                        raise HTTPException(
+                            status_code=503, 
+                            detail="Server is currently busy. Another user is using the system. Please try again later."
+                        )
         
         task = persona_db.get_task(task_id)
         user = persona_db.get_user(username)
@@ -188,14 +200,13 @@ def init_chat_session(username: str = Query(...), task_id: str = Query(...)):
                 "role": user["role"],
                 "persona_graph": persona_graph
             },
-            "expires_in": 40
+            "expires_in": SESSION_EXP * 60
         }
         
     except HTTPException as e:
         raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
 @app.post("/chat/message", tags=["Chat"])
 def send_message(session_id: str = Query(...), message: str = Query(...)):
@@ -285,7 +296,7 @@ def cleanup_expired_sessions():
         
         with session_lock:
             for session_id, session_data in sessions.items():
-                if current_time - session_data["last_accessed"] > timedelta(minutes=5):            # Update this
+                if current_time - session_data["last_accessed"] > timedelta(minutes= SESSION_EXP):            # Update this
                     expired_sessions.append(session_id)
             
             for session_id in expired_sessions:
@@ -350,10 +361,15 @@ def get_all_classification_tasks():
 @app.get("/persona_facts", tags=["Persona"])
 def get_persona_facts(username: str = Query(...)):
     try:
+        # Verify user exists
+        user = persona_db.get_user(username)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
         facts = persona_db.get_all_persona_facts(username)
-        if not facts:
-            raise HTTPException(status_code=404, detail="No persona facts found for user.")
-        return facts
+        return {"persona_facts": facts}
+    except HTTPException as e:
+        raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -361,10 +377,15 @@ def get_persona_facts(username: str = Query(...)):
 @app.get("/persona_graph", tags=["Persona"])
 def get_persona_graph(username: str = Query(...), task_id: int = Query(...)):
     try:
+        # Verify user exists
+        user = persona_db.get_user(username)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
         graph_data = persona_db.get_user_persona_graph_by_task(username, task_id)
-        if not graph_data["nodes"]:
-            raise HTTPException(status_code=404, detail="No persona data found for user/task.")
-        return graph_data
+        return {"persona_graph": graph_data}
+    except HTTPException as e:
+        raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -390,6 +411,27 @@ def login(username: str = Query(...)):
             # Get all tasks
             tasks = persona_db.get_all_tasks()
             response_data["tasks"] = tasks
+            
+            # Get oldest waiting offer
+            cursor = persona_db.conn.cursor()
+            cursor.execute("""
+                SELECT ct.id, ct.offer_message, ctu.id as connection_id
+                FROM ClassificationTask ct
+                JOIN ClassificationTaskUser ctu ON ct.id = ctu.classification_task_id
+                WHERE ctu.username = ? AND ctu.status = 'waiting'
+                ORDER BY ctu.id ASC
+                LIMIT 1
+            """, (username,))
+            
+            offer_row = cursor.fetchone()
+            if offer_row:
+                response_data["current_offer"] = {
+                    "task_id": offer_row[0],
+                    "offer_message": offer_row[1],
+                    "connection_id": offer_row[2]
+                }
+            else:
+                response_data["current_offer"] = None
             
         elif user["role"] == "analyst":
             # Get classification tasks created by this analyst
@@ -422,31 +464,159 @@ def login(username: str = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/chat_init", tags=["Chat"])
-def chat_init(username: str = Query(...), task_id: int = Query(...)):
+@app.put("/offers/respond", tags=["ClassificationTask"])
+def respond_to_offer(connection_id: str = Query(...), response_data: dict = Body(...)):
+    """Respond to a classification offer (accepted/declined)."""
     try:
-        # Verify user exists
+        status = response_data["status"]
+        if status not in ["accepted", "declined"]:
+            raise HTTPException(status_code=400, detail="Status must be 'accepted' or 'declined'")
+        
+        persona_db.update_classification_task_user_status(connection_id, status)
+        return {"message": f"Offer {status} successfully"}
+        
+    except KeyError:
+        raise HTTPException(status_code=400, detail="Missing required field: status")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/classification_tasks", tags=["ClassificationTask"])
+def create_or_update_classification_task(task_data: dict = Body(...), username: str = Query(...)):
+    """Create or update a classification task and return labeled users."""
+    try:
         user = persona_db.get_user(username)
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
+        if user["role"] != "analyst":
+            raise HTTPException(status_code=403, detail="Only analysts can create classification tasks")
         
-        # Verify task exists
-        task = persona_db.get_task(task_id)
-        if not task:
-            raise HTTPException(status_code=404, detail="Task not found")
+        # Check if task exists (for update)
+        existing_task = None
+        if "id" in task_data:
+            existing_task = persona_db.get_classification_task(task_data["id"])
         
-        # Get persona graph for the specified task
-        persona_graph = persona_db.get_user_persona_graph_by_task(username, task_id)
+        if existing_task:
+            # Update existing task
+            success = persona_db.update_classification_task(
+                task_id=task_data["id"],
+                name=task_data["name"],
+                description=task_data["description"],
+                label1=task_data["label1"],
+                label2=task_data["label2"],
+                offer_message=task_data["offer_message"]
+            )
+            if not success:
+                raise HTTPException(status_code=500, detail="Failed to update classification task")
+            task_id = task_data["id"]
+            operation = "updated"
+        else:
+            # Create new task
+            task_id = persona_db.create_classification_task(
+                name=task_data["name"],
+                description=task_data["description"],
+                label1=task_data["label1"],
+                label2=task_data["label2"],
+                offer_message=task_data["offer_message"],
+                username=username
+            )
+            operation = "created"
+        
+        # Get labeled users using assistant
+        assistant = get_labeling_assistant()
+        results = assistant.get_alignment_score(10, task_data["name"])
         
         return {
-            "username": username,
-            "task_id": task_id,
-            "task_name": task["name"],
-            "persona_graph": persona_graph
+            "id": task_id,
+            "message": f"Classification task '{task_data['name']}' {operation} successfully",
+            "labeled_users": results if results else []
         }
         
-    except HTTPException as e:
-        raise e
+    except KeyError as e:
+        raise HTTPException(status_code=400, detail=f"Missing required field: {e}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/classification_tasks/send_offers", tags=["ClassificationTask"])
+def send_personalized_offers(task_id: int = Query(...), request_data: dict = Body(...)):
+    """Send personalized offers to specified users."""
+    try:
+        task = persona_db.get_classification_task(task_id)
+        if not task:
+            raise HTTPException(status_code=404, detail="Classification task not found")
+        
+        usernames = request_data["usernames"]
+        if not usernames:
+            raise HTTPException(status_code=400, detail="No usernames provided")
+        
+        sent_to = []
+        already_have_offer = []
+        
+        for username in usernames:
+            user = persona_db.get_user(username)
+            if user and user["role"] == "user":
+                # Check if user already has a waiting offer
+                cursor = persona_db.conn.cursor()
+                cursor.execute("""
+                    SELECT id FROM ClassificationTaskUser 
+                    WHERE classification_task_id = ? AND username = ? AND status = 'waiting'
+                """, (task_id, username))
+                
+                if cursor.fetchone():
+                    already_have_offer.append(username)
+                else:
+                    persona_db.connect_user_to_classification_task(task_id, username, "waiting")
+                    sent_to.append(username)
+        
+        return {
+            "message": f"Sent {len(sent_to)} new offers",
+            "sent_to": sent_to,
+            "already_have_offer": already_have_offer
+        }
+        
+    except KeyError:
+        raise HTTPException(status_code=400, detail="Missing required field: usernames")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/users/{username}/classification_offers", tags=["ClassificationTask"])
+def get_user_classification_offers(username: str):
+    """Get pending classification offers for a user."""
+    try:
+        cursor = persona_db.conn.cursor()
+        cursor.execute("""
+            SELECT ct.id, ct.name, ct.description, ct.label1, ct.label2, 
+                   ct.offer_message, ctu.id as connection_id
+            FROM ClassificationTask ct
+            JOIN ClassificationTaskUser ctu ON ct.id = ctu.classification_task_id
+            WHERE ctu.username = ? AND ctu.status = 'waiting'
+        """, (username,))
+        
+        offers = [{"task_id": row[0], "name": row[1], "description": row[2], 
+                  "label1": row[3], "label2": row[4], "offer_message": row[5], 
+                  "connection_id": row[6]} for row in cursor.fetchall()]
+        
+        return {"offers": offers}
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.put("/classification_offers/{connection_id}/respond", tags=["ClassificationTask"])
+def respond_to_personalized_offer(connection_id: int, response_data: dict = Body(...)):
+    """Respond to a classification offer (accept/decline)."""
+    try:
+        status = response_data["status"]
+        if status not in ["accepted", "declined"]:
+            raise HTTPException(status_code=400, detail="Status must be 'accepted' or 'declined'")
+        
+        persona_db.update_classification_task_user_status(connection_id, status)
+        return {"message": f"Classification offer {status} successfully"}
+        
+    except KeyError:
+        raise HTTPException(status_code=400, detail="Missing required field: status")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

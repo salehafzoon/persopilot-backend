@@ -97,24 +97,23 @@ class SQLitePersonaDB:
         return None
 
 
-    def create_or_update_user_by_full_name(self, full_name: str, age: Optional[int], gender: Optional[str], role: str = "user") -> tuple[str, str]:
+    def create_or_update_user(self, username: str, full_name: str, age: Optional[int], gender: Optional[str], role: str = "user") -> tuple[str, str]:
         try:
-            # Check if user exists by full_name
-            existing_user = self.get_user_by_full_name(full_name)
+            cursor = self.conn.cursor()
+            cursor.execute("SELECT username FROM User WHERE username = ?", (username,))
+            existing_user = cursor.fetchone()
             
             if existing_user:
                 # Update existing user
-                username = existing_user["username"]
                 with self.conn:
                     self.conn.execute(
-                        "UPDATE User SET age = ?, gender = ?, role = ? WHERE username = ?",
-                        (age, gender, role, username)
+                        "UPDATE User SET full_name = ?, age = ?, gender = ?, role = ? WHERE username = ?",
+                        (full_name, age, gender, role, username)
                     )
                 logger.info(f"User updated: {username}")
                 return username, "updated"
             else:
-                # Create new user with full_name as username (or generate unique username)
-                username = full_name.lower().replace(" ", "_")
+                # Create new user
                 with self.conn:
                     self.conn.execute(
                         "INSERT INTO User (username, full_name, age, gender, role) VALUES (?, ?, ?, ?, ?)",
@@ -123,7 +122,7 @@ class SQLitePersonaDB:
                 logger.info(f"User created: {username}")
                 return username, "created"
         except Exception as e:
-            logger.error(f"Failed to create/update user {full_name}: {e}")
+            logger.error(f"Failed to create/update user {username}: {e}")
             return None, "unsuccessful"
 
 
