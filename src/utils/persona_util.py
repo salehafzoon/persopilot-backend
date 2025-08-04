@@ -689,7 +689,6 @@ class SQLitePersonaDB:
         return True, task_name, offers_count, predictions_count
 
 
-
     def clear_database(self):
 
         logger.warning("Clearing all tables from SQLite!")
@@ -700,6 +699,7 @@ class SQLitePersonaDB:
             self.conn.execute("DELETE FROM Task")
             self.conn.execute("DELETE FROM User")
         logger.info("All tables cleared")
+
 
     def get_classification_task_responses(self, classification_task_name: str, status: str = None) -> List[Dict]:
         """Get users who responded to a classification task with their status"""
@@ -924,6 +924,7 @@ class SQLitePersonaDB:
             "accepted_offers": row[2],
             "declined_offers": row[3]
         }
+
 
     def get_prediction_accuracy_details(self, classification_task_id: int, label1: str, label2: str) -> List[Dict]:
         """Get prediction accuracy details for a classification task"""
