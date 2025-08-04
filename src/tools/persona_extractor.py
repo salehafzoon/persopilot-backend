@@ -98,7 +98,7 @@ class PersonaExtractor:
         self.persona_db = SQLitePersonaDB()
 
     def extract(self, sentence: str) -> str:
-        logger.info(f"[START] extract() called with: {sentence}")
+        # logger.info(f"[START] extract() called with: {sentence}")
         
         tokenizer = self.tokenizer
         model = self.model

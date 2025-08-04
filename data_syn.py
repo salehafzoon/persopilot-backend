@@ -132,6 +132,9 @@ for task_name, user_groups in classification_users.items():
                 print(f"Inserted declined offer for {username} on {task_name}")
             except:
                 pass
+
+
+
 ################# SYNTHETIC PREDICTION INSERTION ####################
 import random
 
@@ -151,26 +154,28 @@ for task_name, accuracy_percent in target_accuracies.items():
         task_id = task_row[0]
         task_data = db.get_classification_task(task_id)
         
-        # Get users with offers (both accepted and declined)
+        # Get users who received offers (both accepted and declined)
         cursor = db.conn.cursor()
         cursor.execute("""
             SELECT username, status FROM ClassificationTaskUser 
             WHERE classification_task_id = ? AND status IN ('accepted', 'declined')
-            ORDER BY RANDOM() LIMIT 10
+            ORDER BY RANDOM()
         """, (task_id,))
         
-        users_with_status = cursor.fetchall()
+        users_with_offers = cursor.fetchall()
         
-        if len(users_with_status) >= 10:
-            # Calculate correct and incorrect predictions needed
-            correct_needed = int(10 * accuracy_percent / 100)
-            incorrect_needed = 10 - correct_needed
+        if users_with_offers:
+            # Use all users who received offers for predictions
+            total_users = len(users_with_offers)
+            correct_needed = int(total_users * accuracy_percent / 100)
+            incorrect_needed = total_users - correct_needed
             
             predictions = []
             
-            # Generate correct predictions
+            # Generate correct predictions (users who accepted get predicted as label1)
             for i in range(correct_needed):
-                username, status = users_with_status[i]
+                username, status = users_with_offers[i]
+                # Correct prediction: accepted users predicted as label1, declined users predicted as label2
                 predicted_label = task_data["label1"] if status == "accepted" else task_data["label2"]
                 confidence = round(random.uniform(0.7, 0.95), 3)
                 
@@ -180,9 +185,10 @@ for task_name, accuracy_percent in target_accuracies.items():
                     "confidence": confidence
                 })
             
-            # Generate incorrect predictions
+            # Generate incorrect predictions (wrong labels for remaining users)
             for i in range(correct_needed, correct_needed + incorrect_needed):
-                username, status = users_with_status[i]
+                username, status = users_with_offers[i]
+                # Incorrect prediction: accepted users predicted as label2, declined users predicted as label1
                 predicted_label = task_data["label2"] if status == "accepted" else task_data["label1"]
                 confidence = round(random.uniform(0.6, 0.8), 3)
                 
