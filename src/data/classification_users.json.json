@@ -1,0 +1,42 @@
+{
+  "Gamer Identification": {
+    "Gamer": [
+      "user_10", "user_13", "user_18", "user_22",
+      "user_28", "user_35", "user_38"
+    ],
+    "Non-Gamer": [
+      "user_01", "user_02", "user_03", "user_04", "user_05",
+      "user_06", "user_07", "user_08", "user_09", "user_11"
+    ]
+  },
+  "Camping Enthusiast": {
+    "Camping Enthusiast": [
+      "user_01", "user_02", "user_03", "user_04", "user_05",
+      "user_06", "user_07", "user_08", "user_09", "user_10"
+    ],
+    "Not Enthusiast": [
+      "user_81", "user_82", "user_83", "user_84", "user_85",
+      "user_86", "user_87", "user_88", "user_89", "user_90"
+    ]
+  },
+  "Bookworm": {
+    "Bookworm": [
+      "user_02", "user_03", "user_04", "user_05", "user_06",
+      "user_07", "user_08", "user_10", "user_11", "user_13"
+    ],
+    "Casual Reader": [
+      "user_01", "user_09", "user_12", "user_16", "user_33",
+      "user_61", "user_62", "user_63", "user_64", "user_65"
+    ]
+  },
+  "Career Path Preference": {
+    "Academia-Oriented": [
+      "user_03", "user_05", "user_07", "user_09", "user_11",
+      "user_12", "user_14", "user_16", "user_19", "user_22"
+    ],
+    "Industry-Oriented": [
+      "user_01", "user_02", "user_04", "user_06", "user_08",
+      "user_10", "user_13", "user_15", "user_17", "user_18"
+    ]
+  }
+}

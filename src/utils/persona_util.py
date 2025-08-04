@@ -72,6 +72,18 @@ class SQLitePersonaDB:
                     FOREIGN KEY (username) REFERENCES User(username)
                 );
             """)
+            self.conn.execute("""
+                CREATE TABLE IF NOT EXISTS ClassificationPrediction (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    classification_task_id INTEGER NOT NULL,
+                    username TEXT NOT NULL,
+                    predicted_label TEXT NOT NULL,
+                    confidence REAL NOT NULL,
+                    prediction_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (classification_task_id) REFERENCES ClassificationTask(id),
+                    FOREIGN KEY (username) REFERENCES User(username)
+                );
+            """)
 
     def close(self):
         logger.info("Closing SQLite connection")
@@ -646,7 +658,7 @@ class SQLitePersonaDB:
         return deleted_count, task_name
 
 
-    def delete_classification_task(self, classification_task_id: int) -> tuple[bool, str, int]:
+    def delete_classification_task(self, classification_task_id: int) -> tuple[bool, str, int, int]:
         cursor = self.conn.cursor()
         
         # Get task name first
@@ -654,7 +666,7 @@ class SQLitePersonaDB:
         task_row = cursor.fetchone()
         if not task_row:
             logger.warning(f"Classification task {classification_task_id} not found")
-            return False, None, 0
+            return False, None, 0, 0
         
         task_name = task_row[0]
         
@@ -662,19 +674,24 @@ class SQLitePersonaDB:
         cursor.execute("SELECT COUNT(*) FROM ClassificationTaskUser WHERE classification_task_id = ?", (classification_task_id,))
         offers_count = cursor.fetchone()[0]
         
+        cursor.execute("SELECT COUNT(*) FROM ClassificationPrediction WHERE classification_task_id = ?", (classification_task_id,))
+        predictions_count = cursor.fetchone()[0]
+        
         with self.conn:
             # Delete related records first (foreign key constraint)
             cursor.execute("DELETE FROM ClassificationTaskUser WHERE classification_task_id = ?", (classification_task_id,))
+            cursor.execute("DELETE FROM ClassificationPrediction WHERE classification_task_id = ?", (classification_task_id,))
             
             # Delete the classification task
             cursor.execute("DELETE FROM ClassificationTask WHERE id = ?", (classification_task_id,))
         
-        logger.info(f"Deleted classification task '{task_name}' (ID: {classification_task_id}) and {offers_count} related offers")
-        return True, task_name, offers_count
+        logger.info(f"Deleted classification task '{task_name}' (ID: {classification_task_id}), {offers_count} related offers, and {predictions_count} predictions")
+        return True, task_name, offers_count, predictions_count
 
 
 
     def clear_database(self):
+
         logger.warning("Clearing all tables from SQLite!")
         with self.conn:
             self.conn.execute("DELETE FROM Persona")
@@ -683,3 +700,266 @@ class SQLitePersonaDB:
             self.conn.execute("DELETE FROM Task")
             self.conn.execute("DELETE FROM User")
         logger.info("All tables cleared")
+
+    def get_classification_task_responses(self, classification_task_name: str, status: str = None) -> List[Dict]:
+        """Get users who responded to a classification task with their status"""
+        cursor = self.conn.cursor()
+        
+        if status:
+            cursor.execute("""
+                SELECT ctu.username, ctu.status
+                FROM ClassificationTaskUser ctu
+                JOIN ClassificationTask ct ON ctu.classification_task_id = ct.id
+                WHERE ct.name = ? AND ctu.status = ?
+            """, (classification_task_name, status))
+        else:
+            cursor.execute("""
+                SELECT ctu.username, ctu.status
+                FROM ClassificationTaskUser ctu
+                JOIN ClassificationTask ct ON ctu.classification_task_id = ct.id
+                WHERE ct.name = ? AND ctu.status IN ('accepted', 'declined')
+            """, (classification_task_name,))
+        
+        return [{"username": row[0], "status": row[1]} for row in cursor.fetchall()]
+
+    
+    def get_persona_summaries_by_task(self, usernames: List[str], task_name: str) -> Dict[str, str]:
+        """Get persona summaries for specific users and task"""
+        summaries = {}
+        for username in usernames:
+            summary = self.get_user_persona_summary_by_task(username, task_name)
+            if not summary.startswith("No"):  # Skip users with no data
+                summaries[username] = summary
+        return summaries
+
+    
+    def filter_persona_summary_from_topics(self, persona_summary: str) -> str:
+        """Remove user prefix, task names, and topic names - return only relations and objects"""
+        if ":" in persona_summary:
+            # Remove the user prefix (everything before first colon)
+            first_colon_index = persona_summary.find(":")
+            content = persona_summary[first_colon_index + 1:].strip()
+            
+            # Remove task names by splitting on "||" and removing everything before "-"
+            parts = content.split("||")
+            filtered_parts = []
+            
+            for part in parts:
+                part = part.strip()
+                if " - " in part:
+                    # Remove task name (everything before " - ")
+                    topic_content = part.split(" - ", 1)[1]
+                else:
+                    topic_content = part
+                
+                # Remove topic names by splitting on "|" and removing everything before ":"
+                topic_parts = topic_content.split("|")
+                relation_object_parts = []
+                
+                for topic_part in topic_parts:
+                    topic_part = topic_part.strip()
+                    if ":" in topic_part:
+                        # Remove topic name (everything before ":")
+                        relation_object = topic_part.split(":", 1)[1].strip()
+                        relation_object_parts.append(relation_object)
+                    else:
+                        relation_object_parts.append(topic_part)
+                
+                filtered_parts.extend(relation_object_parts)
+            
+            return " | ".join(filtered_parts)
+        
+        return persona_summary
+
+
+    def bulk_update_classification_task_status(self, classification_task_id: int, accepted_users: List[str], declined_users: List[str]) -> Dict:
+        """Bulk update classification task user statuses, creating offers if they don't exist"""
+        cursor = self.conn.cursor()
+        
+        # Check if classification task exists
+        cursor.execute("SELECT id FROM ClassificationTask WHERE id = ?", (classification_task_id,))
+        if not cursor.fetchone():
+            return {"error": "Classification task not found", "updated_accepted": 0, "updated_declined": 0}
+        
+        # Get existing users with offers
+        cursor.execute("""
+            SELECT username FROM ClassificationTaskUser 
+            WHERE classification_task_id = ?
+        """, (classification_task_id,))
+        existing_users = {row[0] for row in cursor.fetchall()}
+        
+        all_users = accepted_users + declined_users
+        created_offers = 0
+        updated_accepted = 0
+        updated_declined = 0
+        
+        with self.conn:
+            # Create offers for users who don't have them
+            for username in all_users:
+                if username not in existing_users:
+                    cursor.execute("""
+                        INSERT INTO ClassificationTaskUser (classification_task_id, username, status)
+                        VALUES (?, ?, 'waiting')
+                    """, (classification_task_id, username))
+                    created_offers += 1
+            
+            # Update accepted users
+            for username in accepted_users:
+                cursor = self.conn.execute("""
+                    UPDATE ClassificationTaskUser 
+                    SET status = 'accepted' 
+                    WHERE classification_task_id = ? AND username = ?
+                """, (classification_task_id, username))
+                updated_accepted += cursor.rowcount
+            
+            # Update declined users
+            for username in declined_users:
+                cursor = self.conn.execute("""
+                    UPDATE ClassificationTaskUser 
+                    SET status = 'declined' 
+                    WHERE classification_task_id = ? AND username = ?
+                """, (classification_task_id, username))
+                updated_declined += cursor.rowcount
+        
+        logger.info(f"Created {created_offers} offers, updated {updated_accepted} accepted and {updated_declined} declined users")
+        
+        return {
+            "created_offers": created_offers,
+            "updated_accepted": updated_accepted,
+            "updated_declined": updated_declined
+        }
+
+    
+    def remove_predictions(self, classification_task_id: int) -> int:
+        """Remove all predictions for a classification task"""
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM ClassificationPrediction WHERE classification_task_id = ?", (classification_task_id,))
+        count = cursor.fetchone()[0]
+        
+        if count == 0:
+            logger.info(f"No predictions found for classification task {classification_task_id}")
+            return 0
+        
+        with self.conn:
+            cursor = self.conn.execute("DELETE FROM ClassificationPrediction WHERE classification_task_id = ?", (classification_task_id,))
+            deleted_count = cursor.rowcount
+        
+        logger.info(f"Removed {deleted_count} predictions for classification task {classification_task_id}")
+        return deleted_count
+
+
+
+    def save_predictions(self, classification_task_id: int, predictions: List[Dict]) -> int:
+        """Save or update predictions in database"""
+        saved_count = 0
+        cursor = self.conn.cursor()
+        
+        with self.conn:
+            for pred in predictions:
+                # Check if prediction already exists
+                cursor.execute("""
+                    SELECT id FROM ClassificationPrediction 
+                    WHERE classification_task_id = ? AND username = ?
+                """, (classification_task_id, pred["username"]))
+                
+                if cursor.fetchone():
+                    # Update existing prediction
+                    cursor.execute("""
+                        UPDATE ClassificationPrediction 
+                        SET predicted_label = ?, confidence = ?, prediction_date = CURRENT_TIMESTAMP
+                        WHERE classification_task_id = ? AND username = ?
+                    """, (pred["predicted_label"], pred["confidence"], classification_task_id, pred["username"]))
+                else:
+                    # Insert new prediction
+                    cursor.execute("""
+                        INSERT INTO ClassificationPrediction 
+                        (classification_task_id, username, predicted_label, confidence)
+                        VALUES (?, ?, ?, ?)
+                    """, (classification_task_id, pred["username"], pred["predicted_label"], pred["confidence"]))
+                
+                saved_count += 1
+        
+        logger.info(f"Saved/updated {saved_count} predictions for classification task {classification_task_id}")
+        return saved_count
+
+
+    def get_predictions(self, classification_task_id: int) -> List[Dict]:
+        """Get all predictions for a classification task"""
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT username, predicted_label, confidence, prediction_date
+            FROM ClassificationPrediction
+            WHERE classification_task_id = ?
+            ORDER BY confidence DESC
+        """, (classification_task_id,))
+        
+        return [
+            {
+                "username": row[0],
+                "predicted_label": row[1],
+                "confidence": row[2],
+                "prediction_date": row[3]
+            }
+            for row in cursor.fetchall()
+        ]
+
+
+    def get_offer_statistics(self, classification_task_id: int) -> Dict:
+        """Get offer statistics for a classification task"""
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT 
+                COUNT(*) as total_offers,
+                SUM(CASE WHEN status = 'waiting' THEN 1 ELSE 0 END) as waiting_offers,
+                SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) as accepted_offers,
+                SUM(CASE WHEN status = 'declined' THEN 1 ELSE 0 END) as declined_offers
+            FROM ClassificationTaskUser 
+            WHERE classification_task_id = ?
+        """, (classification_task_id,))
+        
+        row = cursor.fetchone()
+        return {
+            "total_offers": row[0],
+            "waiting_offers": row[1],
+            "accepted_offers": row[2],
+            "declined_offers": row[3]
+        }
+
+    def get_prediction_accuracy_details(self, classification_task_id: int, label1: str, label2: str) -> List[Dict]:
+        """Get prediction accuracy details for a classification task"""
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT p.username, p.predicted_label, p.confidence, 
+                   ctu.status as actual_status,
+                   CASE WHEN ctu.status = 'accepted' THEN ? ELSE ? END as actual_label
+            FROM ClassificationPrediction p
+            LEFT JOIN ClassificationTaskUser ctu ON p.username = ctu.username 
+                AND ctu.classification_task_id = p.classification_task_id
+            WHERE p.classification_task_id = ?
+        """, (label1, label2, classification_task_id))
+        
+        prediction_accuracy = []
+        correct_predictions = 0
+        total_with_actual = 0
+        
+        for row in cursor.fetchall():
+            username, predicted_label, confidence, actual_status, actual_label = row
+            
+            accuracy_record = {
+                "username": username,
+                "predicted_label": predicted_label,
+                "confidence": confidence,
+                "actual_status": actual_status,
+                "actual_label": actual_label,
+                "is_correct": None
+            }
+            
+            if actual_status in ['accepted', 'declined']:
+                accuracy_record["is_correct"] = predicted_label == actual_label
+                if accuracy_record["is_correct"]:
+                    correct_predictions += 1
+                total_with_actual += 1
+            
+            prediction_accuracy.append(accuracy_record)
+        
+        return prediction_accuracy, correct_predictions, total_with_actual

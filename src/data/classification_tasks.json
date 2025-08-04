@@ -1,30 +1,30 @@
 [
   {
     "name": "Gamer Identification",
-    "description": "Classify users based on whether they actively play video or board games.",
+    "description": "Classify users based on whether they actively play video.",
     "label1": "Gamer",
     "label2": "Non-Gamer",
-    "offer_message": "Unlock exclusive early access to the latest gaming gear by joining our Gamer ID program!"
+    "offer_message": "🎮 Get 20% off your next gaming purchase! We're building a community of gamers and would love your input on the latest releases. Join our Gaming Insider program for exclusive reviews and early access deals."
   },
   {
     "name": "Camping Enthusiast",
     "description": "Classify users according to their interest and participation in camping and outdoor activities.",
     "label1": "Camping Enthusiast",
     "label2": "Not Enthusiast",
-    "offer_message": "Join our Outdoor Rewards Club and get discounts on top camping gear\u2014start by sharing your adventure style!"
+    "offer_message": "🏕️ Free camping checklist + 15% off outdoor gear! Help us understand what outdoor enthusiasts really need. Share your camping preferences and get personalized gear recommendations plus exclusive discounts."
   },
   {
     "name": "Bookworm",
     "description": "Classify users based on their passion for reading books and literature.",
     "label1": "Bookworm",
     "label2": "Casual Reader",
-    "offer_message": "Discover your next favorite book\u2014help us tailor book boxes just for you by joining our Bookworm program!"
+    "offer_message": "📚 Free book + personalized reading recommendations! We're curating the perfect book collection and need avid readers like you. Join our Book Club Beta for exclusive titles and author interviews."
   },
   {
     "name": "Career Path Preference",
     "description": "Classify users based on their preferred career path: pursuing academia versus industry jobs.",
     "label1": "Academia-Oriented",
     "label2": "Industry-Oriented",
-    "offer_message": "Shape your future\u2014get personalized resources for academia or industry by joining our career navigator initiative!"
+    "offer_message": "🎓 Free career consultation worth $200! We're developing targeted career resources and need your insights. Get personalized mentorship opportunities and exclusive access to career development workshops."
   }
 ]

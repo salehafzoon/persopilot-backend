@@ -1,12 +1,14 @@
 # from app.agent_factory import get_agent, PersoAgent
 from fastapi import FastAPI, Query, Depends, HTTPException, Body
 from src.tools.labeling_assistant import LabelingAssistant
+from src.tools.persona_classifier import PersonaClassifier
 from fastapi.middleware.cors import CORSMiddleware
 from src.utils.persona_util import SQLitePersonaDB
 from src.agents.PersoAgent import PersoAgent
 from datetime import datetime, timedelta
 from typing import Optional, List
 from pydantic import BaseModel
+import numpy as np
 import threading
 import logging
 import torch
@@ -26,6 +28,7 @@ load_dotenv()
 
 
 SESSION_EXP = 1         #minutes
+CONFIDENCE_THRESHOLD = 0.65
 
 # Add console handler
 handler = logging.StreamHandler()
@@ -724,18 +727,19 @@ def delete_classification_task_offers(task_id: str = Query(...)):
 
 @app.delete("/classification_tasks", tags=["ClassificationTask"])
 def delete_classification_task(task_id: str = Query(...)):
-    """Delete a classification task and all related records."""
+    """Delete a classification task and all related records including predictions."""
     try:
-        success, task_name, offers_deleted = persona_db.delete_classification_task(task_id)
+        success, task_name, offers_deleted, predictions_deleted = persona_db.delete_classification_task(task_id)
         
         if not success:
             raise HTTPException(status_code=404, detail="Classification task not found")
         
         return {
-            "message": f"Successfully deleted classification task '{task_name}' and {offers_deleted} related offers",
+            "message": f"Successfully deleted classification task '{task_name}', {offers_deleted} related offers, and {predictions_deleted} predictions",
             "task_id": task_id,
             "task_name": task_name,
-            "offers_deleted": offers_deleted
+            "offers_deleted": offers_deleted,
+            "predictions_deleted": predictions_deleted
         }
         
     except HTTPException as e:
@@ -806,6 +810,222 @@ def update_classification_task(task_data: dict = Body(...)):
         
     except KeyError as e:
         raise HTTPException(status_code=400, detail=f"Missing required field: {e}")
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.put("/classification_tasks/bulk_status", tags=["Classification"])
+def bulk_update_classification_status(
+    clf_task_id: int = Query(...),
+    status_data: dict = Body(...)
+):
+    """Bulk update classification task user statuses"""
+    try:
+        accepted_users = status_data.get("accepted_users", [])
+        declined_users = status_data.get("declined_users", [])
+        
+        result = persona_db.bulk_update_classification_task_status(
+            clf_task_id,
+            accepted_users,
+            declined_users
+        )
+        
+        if "error" in result:
+            raise HTTPException(status_code=404, detail=result["error"])
+        
+        return {
+            "message": "Bulk status update completed",
+            "clf_task_id": clf_task_id,
+            "results": result
+        }
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/classification/predictions", tags=["Classification"])
+def remove_classification_predictions(classification_task_id: int = Query(...)):
+    """Remove all predictions for a classification task"""
+    try:
+        deleted_count = persona_db.remove_predictions(classification_task_id)
+        
+        return {
+            "message": f"Successfully removed {deleted_count} predictions for classification task {classification_task_id}",
+            "classification_task_id": classification_task_id,
+            "deleted_count": deleted_count
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/classification/predict", tags=["Classification"])
+def predict_classification(classification_task_id: int = Query(...)):
+    """Generate predictions for a classification task with accuracy metrics and auto-send offers"""
+    try:
+        classifier = PersonaClassifier()
+        
+        # Get task info first
+        task_info = persona_db.get_classification_task(classification_task_id)
+        if not task_info:
+            raise HTTPException(status_code=404, detail="Classification task not found")
+        
+        # Train the classifier
+        train_result = classifier.train(task_info["name"])
+        if "error" in train_result:
+            return {
+                "success": False,
+                "error": train_result["error"],
+                "classification_task_id": classification_task_id,
+                "training_data": None,
+                "predictions": [],
+                "accuracy_metrics": None,
+                "offers_sent": 0,
+                "users_offered": []
+            }
+        
+        # Generate predictions with confidence threshold
+        predict_result = classifier.predict_and_save(classification_task_id, count=20, min_confidence=CONFIDENCE_THRESHOLD)
+        if "error" in predict_result:
+            return {
+                "success": False,
+                "error": predict_result["error"],
+                "classification_task_id": classification_task_id,
+                "training_data": train_result,
+                "predictions": [],
+                "accuracy_metrics": None,
+                "offers_sent": 0,
+                "users_offered": []
+            }
+        
+        # Auto-send offers to users predicted to accept (label1)
+        users_to_offer = [
+            pred["username"] for pred in predict_result["predictions"] 
+            if pred["predicted_label"] == task_info["label1"]
+        ]
+        
+        offers_sent = 0
+        if users_to_offer:
+            for username in users_to_offer:
+                try:
+                    persona_db.connect_user_to_classification_task(
+                        classification_task_id, username, "waiting"
+                    )
+                    offers_sent += 1
+                except:
+                    pass  # Skip if user already has offer
+        
+        # Get offer statistics
+        offer_stats = persona_db.get_offer_statistics(classification_task_id)
+        
+        # Calculate accuracy metrics
+        prediction_accuracy, correct_predictions, total_with_actual = persona_db.get_prediction_accuracy_details(
+            classification_task_id, task_info["label1"], task_info["label2"]
+        )
+        
+        # Calculate overall accuracy
+        overall_accuracy = (correct_predictions / total_with_actual) if total_with_actual > 0 else None
+        
+        # Get feature importance (top 3 TF-IDF features)
+        feature_names = classifier.vectorizer.get_feature_names_out()
+        feature_importance = []
+        
+        if len(feature_names) > 0:
+            # Get average TF-IDF scores for accepted vs declined
+            accepted_mask = classifier.training_labels == 1
+            declined_mask = classifier.training_labels == 0
+            
+            if np.any(accepted_mask) and np.any(declined_mask):
+                accepted_avg = np.mean(classifier.training_data[accepted_mask].toarray(), axis=0)
+                declined_avg = np.mean(classifier.training_data[declined_mask].toarray(), axis=0)
+                
+                # Calculate feature importance as difference
+                importance_scores = np.abs(accepted_avg - declined_avg)
+                
+                # Get top 3 features
+                top_indices = np.argsort(importance_scores)[-3:][::-1]
+                
+                for idx in top_indices:
+                    if importance_scores[idx] > 0:
+                        feature_importance.append({
+                            "feature": feature_names[idx],
+                            "importance": round(float(importance_scores[idx]), 4),
+                            "accepted_avg": round(float(accepted_avg[idx]), 4),
+                            "declined_avg": round(float(declined_avg[idx]), 4)
+                        })
+        
+        return {
+            "success": True,
+            "classification_task_id": classification_task_id,
+            "training_data": {
+                "training_size": train_result["training_size"],
+                "accepted_count": train_result["accepted"],
+                "declined_count": train_result["declined"]
+            },
+            "predictions": predict_result["predictions"],
+            "accuracy_metrics": {
+                "overall_accuracy": overall_accuracy,
+                "correct_predictions": correct_predictions,
+                "total_evaluated": total_with_actual,
+                "total_predictions": len(predict_result["predictions"]),
+                "prediction_details": prediction_accuracy
+            },
+            "offer_statistics": offer_stats,
+            "feature_importance": feature_importance,
+            "model_info": {
+                "algorithm": "TF-IDF + Cosine Similarity",
+                "confidence_threshold": CONFIDENCE_THRESHOLD,
+                "similarity_method": "max"
+            },
+            "offers_sent": offers_sent,
+            "users_offered": users_to_offer
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/classification/results", tags=["Classification"])
+def get_classification_results(classification_task_id: int = Query(...)):
+    """Get classification results and accuracy metrics for a classification task"""
+    try:
+        # Get task info
+        task_info = persona_db.get_classification_task(classification_task_id)
+        if not task_info:
+            raise HTTPException(status_code=404, detail="Classification task not found")
+        
+        # Get all predictions
+        predictions = persona_db.get_predictions(classification_task_id)
+        
+        # Get offer statistics
+        offer_stats = persona_db.get_offer_statistics(classification_task_id)
+        
+        # Calculate accuracy metrics
+        prediction_accuracy, correct_predictions, total_with_actual = persona_db.get_prediction_accuracy_details(
+            classification_task_id, task_info["label1"], task_info["label2"]
+        )
+        
+        # Calculate overall accuracy
+        overall_accuracy = (correct_predictions / total_with_actual) if total_with_actual > 0 else None
+        
+        return {
+            "classification_task_id": classification_task_id,
+            "task_name": task_info["name"],
+            "predictions": predictions,
+            "accuracy_metrics": {
+                "overall_accuracy": overall_accuracy,
+                "correct_predictions": correct_predictions,
+                "total_evaluated": total_with_actual,
+                "total_predictions": len(predictions),
+                "prediction_details": prediction_accuracy
+            },
+            "offer_statistics": offer_stats
+        }
+        
     except HTTPException as e:
         raise e
     except Exception as e:

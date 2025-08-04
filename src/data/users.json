@@ -280,10 +280,220 @@
     "role": "user"
   },
   {
+    "username": "user_41",
+    "full_name": "Alex Rivera",
+    "age": 26,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_42",
+    "full_name": "Casey Thompson",
+    "age": 29,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_43",
+    "full_name": "Jordan Martinez",
+    "age": 33,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_44",
+    "full_name": "Riley Chen",
+    "age": 24,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_45",
+    "full_name": "Sage Williams",
+    "age": 27,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_46",
+    "full_name": "Phoenix Garcia",
+    "age": 32,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_47",
+    "full_name": "River Johnson",
+    "age": 28,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_48",
+    "full_name": "Skylar Davis",
+    "age": 25,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_49",
+    "full_name": "Rowan Miller",
+    "age": 31,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_50",
+    "full_name": "Ember Wilson",
+    "age": 26,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_51",
+    "full_name": "Storm Anderson",
+    "age": 30,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_52",
+    "full_name": "Luna Taylor",
+    "age": 23,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_53",
+    "full_name": "Atlas Brown",
+    "age": 35,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_54",
+    "full_name": "Iris Moore",
+    "age": 29,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_55",
+    "full_name": "Orion Jackson",
+    "age": 27,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_56",
+    "full_name": "Willow White",
+    "age": 24,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_57",
+    "full_name": "Zion Harris",
+    "age": 32,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_58",
+    "full_name": "Aria Clark",
+    "age": 28,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_59",
+    "full_name": "Kai Lewis",
+    "age": 26,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_60",
+    "full_name": "Nova Walker",
+    "age": 31,
+    "gender": "female",
+    "role": "user"
+  },
+  {
     "username": "analyst_01",
-    "full_name": "Analyst User",
+    "full_name": "Sali Monro",
     "age": 40,
     "gender": "male",
     "role": "analyst"
+  },
+  {
+    "username": "user_81",
+    "full_name": "Parker Foster",
+    "age": 31,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_82",
+    "full_name": "Taylor Lee",
+    "age": 28,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_83",
+    "full_name": "Morgan Bennett",
+    "age": 35,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_84",
+    "full_name": "Jamie Bennett",
+    "age": 35,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_85",
+    "full_name": "Taylor Hayes",
+    "age": 29,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_86",
+    "full_name": "Parker Ramsey",
+    "age": 35,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_87",
+    "full_name": "Jamie Gray",
+    "age": 26,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_88",
+    "full_name": "Jordan Anderson",
+    "age": 36,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_89",
+    "full_name": "Cameron Foster",
+    "age": 23,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_90",
+    "full_name": "Jordan Lee",
+    "age": 31,
+    "gender": "male",
+    "role": "user"
   }
 ]
