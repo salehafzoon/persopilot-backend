@@ -8,7 +8,7 @@ db.clear_database()
 
 ############################# USER DATA INSERTION #############################
 
-with open("src/data/users.json", "r") as f:
+with open("src/data/users.json", "r", encoding='utf-8') as f:
     users = json.load(f)
 
 for user in users:
@@ -22,7 +22,7 @@ for user in users:
 
 ################################# TASK TOPIC INSERTION ####################################
 
-with open("src/data/task_topic.json", "r") as f:
+with open("src/data/task_topic.json", "r", encoding='utf-8') as f:
     tasks_data = json.load(f)
 
 # Insert tasks and their topics
@@ -40,7 +40,7 @@ for task in tasks_data:
 
 ############################### CLASSIFICATION TASK INSERTION ##############################
 
-with open("src/data/classification_tasks.json", "r") as f:
+with open("src/data/classification_tasks.json", "r", encoding='utf-8') as f:
     classification_tasks = json.load(f)
 
 # Get the first user with role 'analyst' (as creator for demo)
@@ -62,7 +62,7 @@ for task in classification_tasks:
 
 ################################ PERSONA FACT INSERTION ####################################
 # Load persona facts
-with open("src/data/persona_facts.json", "r") as f:
+with open("src/data/persona_facts.json", "r", encoding='utf-8') as f:
     persona_facts = json.load(f)
 
 # Insert persona facts
@@ -102,7 +102,7 @@ if usernames and classification_task_ids:
 
 ################# OFFER INSERTION FOR CLASSIFICATION TASKS ####################
 
-with open("src/data/classification_users.json", "r") as f:
+with open("src/data/classification_users.json", "r", encoding='utf-8') as f:
     classification_users = json.load(f)
 
 # Insert offers for each classification task

@@ -376,12 +376,13 @@ class SQLitePersonaDB:
         if not suggestions:
             return f"No community suggestions found for task: {task_name}"
 
-        output = [f"Community suggestions for {task_name} (from other users):"]
+        parts = [f"Here are community recommendations for {task_name}:\n"]
         for topic, objects in suggestions.items():
-            output.append(f"- {topic}:")
+            parts.append(f"• {topic}:")
             for obj in objects:
-                output.append(f"  . {obj['object']}: liked by {obj['user_count']} users")
-        return "\n".join(output)
+                parts.append(f"  - {obj['object']}: liked by {obj['user_count']} users\n")
+        return "\\n".join(parts)
+
 
 
     def get_user_persona_graph_by_task(self, username: str, task_id: int) -> dict:

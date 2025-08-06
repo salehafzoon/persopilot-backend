@@ -1,4 +1,3 @@
-# from app.agent_factory import get_agent, PersoAgent
 from fastapi import FastAPI, Query, Depends, HTTPException, Body
 from src.tools.labeling_assistant import LabelingAssistant
 from src.tools.persona_classifier import PersonaClassifier
@@ -18,7 +17,6 @@ import time
 import os
 import gc
 
-
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -27,7 +25,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-SESSION_EXP = 1         #minutes
+SESSION_EXP = 2         #minutes
 CONFIDENCE_THRESHOLD = 0.65
 
 # Add console handler
@@ -178,7 +176,8 @@ def init_chat_session(username: str = Query(...), task_id: str = Query(...)):
         logger.info(f"user_personas: {user_personas}")
         
         session_id = str(uuid.uuid4())
-        agent = PersoAgent(user, task["name"], user_personas)
+
+        agent = PersoAgent(user = user, prev_personas = user_personas, task= task["name"])
         
         persona_graph = persona_db.get_user_persona_graph_by_task(username, task['id'])
         
@@ -226,6 +225,8 @@ def send_message(session_id: str = Query(...), message: str = Query(...)):
         
         response = agent.handle_task(message)
         
+        logger.info(f"Response from agent: {response}")
+
         # Handle duplicate JSON responses by taking the first valid one
         is_persona_updated = False
         parsed_response = response
@@ -259,6 +260,7 @@ def send_message(session_id: str = Query(...), message: str = Query(...)):
         if isinstance(parsed_response, dict) and parsed_response.get("used_tool") == "PersonaExtractor":
             is_persona_updated = True
         
+
         # Get updated persona graph
         persona_graph = persona_db.get_user_persona_graph_by_task(username, task_id)
         
@@ -276,8 +278,8 @@ def send_message(session_id: str = Query(...), message: str = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.delete("/chat/session/{session_id}", tags=["Chat"])
-def end_session(session_id: str):
+@app.delete("/chat/delete", tags=["Chat"])
+def end_session(session_id:  str = Query(...)):
     try:
         with session_lock:
             if session_id in sessions:
@@ -1028,5 +1030,74 @@ def get_classification_results(classification_task_id: int = Query(...)):
         
     except HTTPException as e:
         raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/classification/train_and_predict", tags=["Classification"])
+def train_and_predict_classification(classification_task_id: int = Query(...)):
+    try:
+        # Get task info
+        task_info = persona_db.get_classification_task(classification_task_id)
+        if not task_info:
+            raise HTTPException(status_code=404, detail="Classification task not found")
+        
+        # Check minimum responses (5 accepted + 5 declined)
+        responses = persona_db.get_classification_task_responses(task_info["name"])
+        accepted_count = sum(1 for r in responses if r["status"] == "accepted")
+        declined_count = sum(1 for r in responses if r["status"] == "declined")
+        
+        if accepted_count < 5 or declined_count < 5:
+            return {
+                "success": False,
+                "error": f"Insufficient training data. Need at least 5 accepted and 5 declined responses. Current: {accepted_count} accepted, {declined_count} declined",
+                "classification_task_id": classification_task_id,
+                "predictions": []
+            }
+        
+        # Train and predict using existing methods
+        classifier = PersonaClassifier()
+        train_result = classifier.train(task_info["name"])
+        
+        if "error" in train_result:
+            return {"success": False, "error": train_result["error"]}
+        
+        # Predict 10 random new users
+        predict_result = classifier.predict_and_save(classification_task_id, count=10, min_confidence=0.0)
+        
+        if "error" in predict_result:
+            return {"success": False, "error": predict_result["error"]}
+        
+        # Get all predictions (including the new ones)
+        all_predictions = persona_db.get_predictions(classification_task_id)
+        
+        # Get offer statistics
+        offer_stats = persona_db.get_offer_statistics(classification_task_id)
+        
+        # Calculate accuracy metrics
+        prediction_accuracy, correct_predictions, total_with_actual = persona_db.get_prediction_accuracy_details(
+            classification_task_id, task_info["label1"], task_info["label2"]
+        )
+        
+        # Calculate overall accuracy
+        overall_accuracy = (correct_predictions / total_with_actual) if total_with_actual > 0 else None
+        
+        return {
+            "success": True,
+            "classification_task_id": classification_task_id,
+            "task_name": task_info["name"],
+            "training_data": train_result,
+            "predictions": all_predictions,
+            "accuracy_metrics": {
+                "overall_accuracy": overall_accuracy,
+                "correct_predictions": correct_predictions,
+                "total_evaluated": total_with_actual,
+                "total_predictions": len(all_predictions),
+                "prediction_details": prediction_accuracy
+            },
+            "offer_statistics": offer_stats,
+            "message": f"Successfully trained on {train_result['training_size']} responses and generated predictions for {len(predict_result['predictions'])} new users"
+        }
+        
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

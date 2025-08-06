@@ -129,7 +129,7 @@ class PersonaExtractor:
         object_str = tokenizer.convert_tokens_to_string(obj_tokens).strip()
 
         # Infer topic
-        topic = self.topic_modeller.infer_topic(object_str)
+        topic = self.topic_modeller.infer_topic(sentence)
 
         # Log
         logger.info(f"[EXTRACTED] relation='{relation}', object='{object_str}', topic='{topic}', task='{self.task}'")
@@ -138,7 +138,7 @@ class PersonaExtractor:
         self.persona_db.insert_persona_fact_by_name(username=self.username, relation=relation, obj=object_str, topic=topic, task=self.task)
         logger.info(f"[SAVED TO DB] for username='{self.username}'")
         
-        return f"[EXTRACTED] relation='{relation}', object='{object_str}', topic='{topic}', task='{self.task}'"
+        return f"[TOOL RESULT] relation='{relation}', object='{object_str}', topic='{topic}', task='{self.task}'"
 
 
 # ------------------------

@@ -19,6 +19,7 @@ class PersoAgent:
         self.task = task
         self.prev_personas = prev_personas
        
+        logger.info(f"Initializing PersoAgent for user: {self.user['username']} with task: {task} and previous personas: {self.prev_personas.strip()}")
 
         self.model = ChatOpenAI(
             model_name="gpt-3.5-turbo",  # or "gpt-4o"
