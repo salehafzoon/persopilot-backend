@@ -6,7 +6,7 @@
         "task_name": "Content Consumption",
         "topic": "Book",
         "relation": "recently_read",
-        "object": "Dune by Frank Herbert"
+        "object": "Dune"
       },
       {
         "task_name": "Content Consumption",
@@ -24,7 +24,7 @@
         "task_name": "Content Consumption",
         "topic": "Movie",
         "relation": "watched_recently",
-        "object": "Blade Runner 2049"
+        "object": "Blade Runner"
       },
       {
         "task_name": "Content Consumption",
@@ -2850,6 +2850,1186 @@
         "topic": "Skill",
         "relation": "has_skill",
         "object": "agile development"
+      }
+    ]
+  },
+  {
+    "username": "user_41",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "Dune by Frank Herbert"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "Spirited Away"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "classic rock"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Civilization VI"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "morning yoga"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "guided meditation with Calm app"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "AI product manager"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "data visualization"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Harvard University"
+      }
+    ]
+  },
+  {
+    "username": "user_42",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "Pride and Prejudice"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "Spirited Away"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "jazz fusion"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Civilization VI"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "crossfit"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "guided meditation with Calm app"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "neuroscience researcher"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "SQL and Tableau"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "University of Melbourne"
+      }
+    ]
+  },
+  {
+    "username": "user_43",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "The Catcher in the Rye"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Social Network"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "symphonic metal"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Portal 2"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "evening cycling"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "gratitude journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "UX designer"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "creative writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Carnegie Mellon"
+      }
+    ]
+  },
+  {
+    "username": "user_44",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "Dune by Frank Herbert"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Grand Budapest Hotel"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "jazz fusion"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Portal 2"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "morning yoga"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "attending group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "data analyst"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "creative writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Carnegie Mellon"
+      }
+    ]
+  },
+  {
+    "username": "user_45",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "1984 by George Orwell"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "Spirited Away"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "hip hop"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Hades"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "rock climbing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "gratitude journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "creative writer"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "creative writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Harvard University"
+      }
+    ]
+  },
+  {
+    "username": "user_46",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "Dune by Frank Herbert"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "Inception"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "ambient electronic"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Civilization VI"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "evening cycling"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "daily journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "neuroscience researcher"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "creative writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Oxford University"
+      }
+    ]
+  },
+  {
+    "username": "user_47",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "Pride and Prejudice"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "Spirited Away"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "classic rock"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "The Legend of Zelda: Breath of the Wild"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "evening cycling"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "attending group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "creative writer"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "SQL and Tableau"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "University of Melbourne"
+      }
+    ]
+  },
+  {
+    "username": "user_48",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "The Catcher in the Rye"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Social Network"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "classic rock"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Portal 2"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "crossfit"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "attending group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "neuroscience researcher"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "creative writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Carnegie Mellon"
+      }
+    ]
+  },
+  {
+    "username": "user_49",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "The Catcher in the Rye"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "Inception"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "ambient electronic"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Hades"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "evening cycling"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "guided meditation with Calm app"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "data analyst"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "SQL and Tableau"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Carnegie Mellon"
+      }
+    ]
+  },
+  {
+    "username": "user_50",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "Educated by Tara Westover"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "Spirited Away"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "ambient electronic"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Hades"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "morning yoga"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "daily journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "data analyst"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "SQL and Tableau"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Carnegie Mellon"
+      }
+    ]
+  },
+  {
+    "username": "user_51",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "The Catcher in the Rye"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Matrix"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "jazz fusion"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Portal 2"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "trail running"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "gratitude journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "neuroscience researcher"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "data visualization"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Harvard University"
+      }
+    ]
+  },
+  {
+    "username": "user_52",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "Pride and Prejudice"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "Spirited Away"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "classic rock"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "The Legend of Zelda: Breath of the Wild"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "morning yoga"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "daily journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "creative writer"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "data visualization"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Oxford University"
+      }
+    ]
+  },
+  {
+    "username": "user_53",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "The Catcher in the Rye"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Social Network"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "symphonic metal"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Portal 2"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "evening cycling"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "daily journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "AI product manager"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "behavioral research methods"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Harvard University"
+      }
+    ]
+  },
+  {
+    "username": "user_54",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "The Catcher in the Rye"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "Spirited Away"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "classic rock"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "The Legend of Zelda: Breath of the Wild"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "rock climbing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "forest walks"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "UX designer"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "creative writing"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "University of Melbourne"
+      }
+    ]
+  },
+  {
+    "username": "user_55",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "1984 by George Orwell"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Matrix"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "jazz fusion"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Among Us"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "crossfit"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "daily journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "UX designer"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "behavioral research methods"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Harvard University"
+      }
+    ]
+  },
+  {
+    "username": "user_56",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "Dune by Frank Herbert"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Matrix"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "ambient electronic"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Civilization VI"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "trail running"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "daily journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "AI product manager"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "data visualization"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Harvard University"
+      }
+    ]
+  },
+  {
+    "username": "user_57",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "1984 by George Orwell"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Matrix"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "jazz fusion"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Civilization VI"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "rock climbing"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "attending group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "UX designer"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "Python and scikit-learn"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Carnegie Mellon"
+      }
+    ]
+  },
+  {
+    "username": "user_58",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "Pride and Prejudice"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Grand Budapest Hotel"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "symphonic metal"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Portal 2"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "crossfit"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "gratitude journaling"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "AI product manager"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "data visualization"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "Oxford University"
+      }
+    ]
+  },
+  {
+    "username": "user_59",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "Educated by Tara Westover"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Social Network"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "jazz fusion"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Among Us"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "crossfit"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "attending group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "AI product manager"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "behavioral research methods"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "University of Melbourne"
+      }
+    ]
+  },
+  {
+    "username": "user_60",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Book",
+        "relation": "recently_read",
+        "object": "The Catcher in the Rye"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Movie",
+        "relation": "watched_recently",
+        "object": "The Grand Budapest Hotel"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "listens_to",
+        "object": "ambient electronic"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Game",
+        "relation": "plays",
+        "object": "Civilization VI"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "has_hobby",
+        "object": "crossfit"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Mental Health",
+        "relation": "focuses_on",
+        "object": "attending group therapy"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "currently_works_as",
+        "object": "creative writer"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "Python and scikit-learn"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Education",
+        "relation": "graduated_from",
+        "object": "University of Melbourne"
       }
     ]
   }
