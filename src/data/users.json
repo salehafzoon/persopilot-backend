@@ -421,7 +421,7 @@
   },
   {
     "username": "analyst_01",
-    "full_name": "Sali Monro",
+    "full_name": "Tyler Cross",
     "age": 40,
     "gender": "male",
     "role": "analyst"
@@ -494,6 +494,153 @@
     "full_name": "Jordan Lee",
     "age": 31,
     "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_91",
+    "full_name": "Alex Reed",
+    "age": 27,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_92",
+    "full_name": "Casey Brooks",
+    "age": 20,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_93",
+    "full_name": "Jordan Foster",
+    "age": 26,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_94",
+    "full_name": "Riley Gray",
+    "age": 30,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_95",
+    "full_name": "Sage Hughes",
+    "age": 43,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_96",
+    "full_name": "Phoenix Morgan",
+    "age": 37,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_97",
+    "full_name": "River Taylor",
+    "age": 44,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_98",
+    "full_name": "Skylar Hayes",
+    "age": 29,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_99",
+    "full_name": "Rowan Ramsey",
+    "age": 41,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_100",
+    "full_name": "Ember Bennett",
+    "age": 29,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_101",
+    "full_name": "Storm Collins",
+    "age": 36,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_102",
+    "full_name": "Luna Anderson",
+    "age": 42,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_103",
+    "full_name": "Atlas Foster",
+    "age": 24,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_104",
+    "full_name": "Iris Lee",
+    "age": 21,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_105",
+    "full_name": "Orion Parker",
+    "age": 37,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_106",
+    "full_name": "Willow Diaz",
+    "age": 24,
+    "gender": "female",
+    "role": "user"
+  },
+  {
+    "username": "user_107",
+    "full_name": "Zion Clark",
+    "age": 32,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_108",
+    "full_name": "Aria Lewis",
+    "age": 21,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_109",
+    "full_name": "Kai Walker",
+    "age": 45,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_110",
+    "full_name": "Nova Evans",
+    "age": 38,
+    "gender": "male",
+    "role": "user"
+  },
+  {
+    "username": "user_111",
+    "full_name": "Peyton Morris",
+    "age": 29,
+    "gender": "female",
     "role": "user"
   }
 ]

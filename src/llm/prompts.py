@@ -137,7 +137,7 @@ def labeling_assistant_prompt(user_persona: str, classification_description: str
     - Score 0.4-0.6: Moderate alignment (related topics)
     - Score 0.0-0.3: Low alignment (no related topics)
 
-    Response format: {{"score": 0.85, "reasoning": "brief explanation (max 60 words)"}}
+    Response format: {{"score": 0.85, "reasoning": "brief explanation (max 50 words)"}}
     <|end|>
     <|assistant|>"""
 

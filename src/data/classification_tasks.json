@@ -10,16 +10,17 @@
     "name": "Camping Enthusiast",
     "description": "Classify users according to their interest and participation in camping and outdoor activities.",
     "label1": "Camping Enthusiast",
-    "label2": "Not Enthusiast",
+    "label2": "Non-Enthusiast",
     "offer_message": "🏕️ Free camping checklist + 15% off outdoor gear! Help us understand what outdoor enthusiasts really need. Share your camping preferences and get personalized gear recommendations plus exclusive discounts."
   },
-  {
-    "name": "Bookworm",
+    {
+    "name": "Book Lover",
     "description": "Classify users based on their passion for reading books and literature.",
-    "label1": "Bookworm",
+    "label1": "Book Lover",
     "label2": "Casual Reader",
     "offer_message": "📚 Free book + personalized reading recommendations! We're curating the perfect book collection and need avid readers like you. Join our Book Club Beta for exclusive titles and author interviews."
-  },
+  }
+  ,
   {
     "name": "Career Path Preference",
     "description": "Classify users based on their preferred career path: pursuing academia versus industry jobs.",

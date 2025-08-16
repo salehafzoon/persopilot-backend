@@ -134,6 +134,32 @@ for task_name, user_groups in classification_users.items():
                 pass
 
 
+################# WAITING OFFERS INSERTION ####################
+import random
+
+# Insert 3-5 waiting offers for each classification task
+for task_id in classification_task_ids:
+    # Get users who haven't received offers yet
+    cursor = db.conn.cursor()
+    cursor.execute("""
+        SELECT username FROM User 
+        WHERE role != 'analyst' AND username NOT IN (
+            SELECT username FROM ClassificationTaskUser WHERE classification_task_id = ?
+        )
+        ORDER BY RANDOM()
+        LIMIT 5
+    """, (task_id,))
+    
+    available_users = cursor.fetchall()
+    waiting_count = random.randint(3, min(5, len(available_users)))
+    
+    for i in range(waiting_count):
+        username = available_users[i][0]
+        try:
+            db.connect_user_to_classification_task(task_id, username, "waiting")
+            print(f"Inserted waiting offer for {username} on classification task id {task_id}")
+        except:
+            pass
 
 ################# SYNTHETIC PREDICTION INSERTION ####################
 import random

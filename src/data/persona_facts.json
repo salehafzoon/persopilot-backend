@@ -17,8 +17,8 @@
       {
         "task_name": "Content Consumption",
         "topic": "Book",
-        "relation": "owns_collection_of",
-        "object": "Foundation series"
+        "relation": "enjoys",
+        "object": "Frankenstein book"
       },
       {
         "task_name": "Content Consumption",
@@ -42,7 +42,7 @@
         "task_name": "Content Consumption",
         "topic": "Music",
         "relation": "listens_to",
-        "object": "Bach's Brandenburg Concertos"
+        "object": "Bach Concertos"
       },
       {
         "task_name": "Content Consumption",
@@ -166,65 +166,66 @@
       }
     ]
   },
-  {
-    "username": "user_02",
-    "facts": [
-      {
-        "task_name": "Content Consumption",
-        "topic": "Book",
-        "relation": "likes",
-        "object": "reading biographies"
-      },
-      {
-        "task_name": "Content Consumption",
-        "topic": "Movie",
-        "relation": "likes",
-        "object": "watching comedies"
-      },
-      {
-        "task_name": "Content Consumption",
-        "topic": "Music",
-        "relation": "likes",
-        "object": "pop music"
-      },
-      {
-        "task_name": "Content Consumption",
-        "topic": "Game",
-        "relation": "plays",
-        "object": "board games"
-      },
-      {
-        "task_name": "Lifestyle Optimization",
-        "topic": "Exercise",
-        "relation": "has_hobby",
-        "object": "cycling"
-      },
-      {
-        "task_name": "Lifestyle Optimization",
-        "topic": "Mental Health",
-        "relation": "focuses_on",
-        "object": "meditation"
-      },
-      {
-        "task_name": "Career Development",
-        "topic": "Career",
-        "relation": "prefers_path",
-        "object": "industry"
-      },
-      {
-        "task_name": "Career Development",
-        "topic": "Skill",
-        "relation": "has_skill",
-        "object": "project management"
-      },
-      {
-        "task_name": "Career Development",
-        "topic": "Education",
-        "relation": "studied_at",
-        "object": "Stanford"
-      }
-    ]
-  },
+{
+  "username": "user_02",
+  "facts": [
+    {
+      "task_name": "Content Consumption",
+      "topic": "Book",
+      "relation": "enjoy",
+      "object": "reading novels"
+    },
+    {
+      "task_name": "Content Consumption",
+      "topic": "Movie",
+      "relation": "likes",
+      "object": "The Hangover"
+    },
+    {
+      "task_name": "Content Consumption",
+      "topic": "Music",
+      "relation": "likes",
+      "object": "Taylor Swift"
+    },
+    {
+      "task_name": "Content Consumption",
+      "topic": "Game",
+      "relation": "plays",
+      "object": "Uno"
+    },
+    {
+      "task_name": "Lifestyle Optimization",
+      "topic": "Exercise",
+      "relation": "hobby",
+      "object": "cycling"
+    },
+    {
+      "task_name": "Lifestyle Optimization",
+      "topic": "Mental Health",
+      "relation": "focuses_on",
+      "object": "meditation"
+    },
+    {
+      "task_name": "Career Development",
+      "topic": "Career",
+      "relation": "prefers_path",
+      "object": "tech industry"
+    },
+    {
+      "task_name": "Career Development",
+      "topic": "Skill",
+      "relation": "skilled_in",
+      "object": "presentaion"
+    },
+    {
+      "task_name": "Career Development",
+      "topic": "Education",
+      "relation": "studied_at",
+      "object": "Macquarie University"
+    }
+  ]
+}
+,
   {
     "username": "user_03",
     "facts": [
@@ -4030,6 +4031,1371 @@
         "topic": "Education",
         "relation": "graduated_from",
         "object": "University of Melbourne"
+      }
+    ]
+  },
+  {
+    "username": "user_91",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_92",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_93",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_94",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_95",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_96",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_97",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_98",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_99",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_100",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_101",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_102",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_103",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_104",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_105",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_106",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_107",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_108",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_109",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_110",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
+      }
+    ]
+  },
+  {
+    "username": "user_111",
+    "facts": [
+      {
+        "task_name": "Content Consumption",
+        "topic": "Music",
+        "relation": "enjoys",
+        "object": "live concerts"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "hosts_monthly",
+        "object": "game nights"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Outdoor",
+        "relation": "frequently_visits",
+        "object": "street fairs"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Exercise",
+        "relation": "plays",
+        "object": "team sports"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Career",
+        "relation": "prefers_work_style",
+        "object": "open office"
+      },
+      {
+        "task_name": "Career Development",
+        "topic": "Skill",
+        "relation": "has_skill",
+        "object": "public speaking"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "attends_weekly",
+        "object": "networking events"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Travel",
+        "relation": "enjoys",
+        "object": "group trips"
+      },
+      {
+        "task_name": "Lifestyle Optimization",
+        "topic": "Social",
+        "relation": "joins",
+        "object": "sports leagues"
+      },
+      {
+        "task_name": "Content Consumption",
+        "topic": "Video",
+        "relation": "watches_with",
+        "object": "friends parties"
       }
     ]
   }
