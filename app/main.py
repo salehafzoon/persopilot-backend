@@ -727,7 +727,7 @@ def delete_classification_task_offers(task_id: str = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.delete("/classification_tasks", tags=["ClassificationTask"])
+@app.delete("/classification_tasks/", tags=["ClassificationTask"])
 def delete_classification_task(task_id: str = Query(...)):
     """Delete a classification task and all related records including predictions."""
     try:
