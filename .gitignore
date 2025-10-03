@@ -10,3 +10,5 @@ Tokenizers/*
 user_graph.py
 **/__pycache__/
 *.db
+
+~$*.xlsx

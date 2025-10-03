@@ -728,7 +728,7 @@ def delete_classification_task_offers(task_id: str = Query(...)):
 
 
 @app.delete("/classification_tasks/", tags=["ClassificationTask"])
-def delete_classification_task(task_id: str = Query(...)):
+def delete_classification_task(task_id: int = Query(...)):
     """Delete a classification task and all related records including predictions."""
     try:
         success, task_name, offers_deleted, predictions_deleted = persona_db.delete_classification_task(task_id)

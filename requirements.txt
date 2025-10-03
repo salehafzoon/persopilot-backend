@@ -23,7 +23,9 @@ typing
 openai
 dotenv
 tinydb
-torch
+# torch --index-url https://download.pytorch.org/whl/cu124
+# torchvision --index-url https://download.pytorch.org/whl/cu124
+# torchaudio --index-url https://download.pytorch.org/whl/cu124
 neo4j
 boto3
 numpy
